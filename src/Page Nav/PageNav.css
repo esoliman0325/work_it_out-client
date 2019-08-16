@@ -1,0 +1,32 @@
+button {
+    background: none;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.dropdown {
+    display: inline-block;
+    position: relative;
+    width: fit-content;
+}
+
+.dropdown-content {
+    position: absolute;
+    font-size: 12px;
+    display: none;
+}
+
+.add-workout-link, .view-workout-link {
+    display: block;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.add-workout-link:hover, .view-workout-link:hover {
+    color: purple;
+}
+
+
