@@ -9,9 +9,43 @@ class AddWorkouts extends Component {
 constructor() {
   super();
   this.state = {
-    error: '' 
+    bodyPart: '',
+    exercise: '',
+    sets: '',
+    reps: '',
+    weight: ''
   }
 }
+
+  bodyPartChanged(bodyPart) {
+    this.setState({
+      bodyPart
+    })
+  }
+
+  exerciseChanged(exercise) {
+    this.setState({
+      exercise
+    })
+  }
+
+  setsChanged(sets) {
+    this.setState({
+      sets
+    })
+  }
+
+  repsChanged(reps) {
+    this.setState({
+      reps
+    })
+  }
+
+  weightChanged(weight) {
+    this.setState({
+      weight
+    })
+  }
 
   handleSubmit = e => {
     e.preventDefault()
@@ -24,30 +58,30 @@ constructor() {
       weight: weight.value
     }
 
-    fetch('https://localhost:8000/addworkout', {
-      method: 'POST',
-      body: JSON.stringify(workout),
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
+  fetch('https://localhost:8000/addworkout', {
+    method: 'POST',
+    body: JSON.stringify(workout),
+    headers: {
+      'content-type': 'application/json'
+    }
+  })
 
-    .then(res => {
-      if (!res.ok) {
-        throw new Error('Oops, something went wrong. Please try again.')
-      }
-      return res.json()
+  .then(res => {
+    if (!res.ok) {
+      throw new Error('Oops, something went wrong. Please try again.')
+    }
+    return res.json()
+  })
+  .then(postedWorkout => {
+    WorkoutsContext.addWorkout(postedWorkout)
+  })
+  .catch(err => {
+    console.log(err)
+    this.setState({
+      error: err.message
     })
-    .then(postedWorkout => {
-      WorkoutsContext.addWorkout(postedWorkout)
-    })
-    .catch(err => {
-      console.log(err)
-      this.setState({
-        error: err.message
-      })
-    })
-  }
+  })
+}
 
   render() {
     const displayError = (this.state.error) ? <div>{this.state.error}</div> : '';
@@ -62,8 +96,8 @@ constructor() {
             name='body part'
             id='body part'
             placeholder='Chest'
-            // value={this.state.title}
-						// onChange={e => this.titleChanged(e.target.value)}
+            value={this.state.bodyPart}
+						onChange={e => this.bodyPartChanged(e.target.value)}
 						/>
           <label htmlFor='exercise'>Exercise:</label>  
           <input
@@ -71,32 +105,32 @@ constructor() {
             name='exercise'
             id='exercise'
             placeholder='url'
-            // value={this.state.url}
-            // onChange={e => this.urlChanged(e.target.value)}
+            value={this.state.exercise}
+            onChange={e => this.exerciseChanged(e.target.value)}
 						/>
           <label htmlFor='sets'>Sets:</label>  
           <input
 						type='number'
             name='sets'
             id='sets'
-            // value={this.state.description}
-						// onChange={e => this.descriptionChanged(e.target.value)}
+            value={this.state.sets}
+						onChange={e => this.setsChanged(e.target.value)}
 						/>
           <label htmlFor='reps'>Reps: </label>
           <input
             type='number'
             name='reps'
             id='reps'
-            // value={this.state.rating}
-            // onChange={e => this.ratingChanged(e.target.value)}
+            value={this.state.reps}
+            onChange={e => this.repsChanged(e.target.value)}
 						/>
           <label htmlFor='reps'>Weight: </label>
           <input
             type='number'
             name='weight'
             id='weight'
-            // value={this.state.rating}
-            // onChange={e => this.ratingChanged(e.target.value)}
+            value={this.state.weight}
+            onChange={e => this.weightChanged(e.target.value)}
 						/>
         </form>
 			</div>
