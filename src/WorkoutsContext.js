@@ -2,9 +2,11 @@ import React from 'react';
 
 const WorkoutsContext = React.createContext({
     workouts: [],
-    addWorkout: () => {},
+    date: '',
+    // addWorkout: () => {},
     deleteWorkout: () => {},
-    updateWorkout: () => {}
+    updateWorkout: () => {},
+    updateDate: () => {} 
 })
 
 export default WorkoutsContext;

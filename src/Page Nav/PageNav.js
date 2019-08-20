@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './PageNav.css';
 // import STORE from '../STORE';
 
@@ -17,7 +17,7 @@ class PageNav extends Component {
 					<button className='dropbtn' type="button">WORKOUTS</button>
 					<div className='dropdown-content'>
 						<Link className='add-workout-link' to={'/workouts/add'}>ADD WORKOUT</Link>
-						<Link className='view-workout-link' to={'/workouts/view'}>VIEW WORKOUT</Link>
+						<Link className='view-workout-link' to={'/viewworkouts'}>VIEW WORKOUT</Link>
 					</div>
 				</div>
 			</div>

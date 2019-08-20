@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+// import { Route } from 'react-router-dom';
 import './AddWorkouts.css';
 import Calendar from '../Calendar/Calendar';
-import WorkoutsContext from '../WorkoutsContext';
+// import WorkoutsContext from '../WorkoutsContext';
 // import STORE from '../../STORE';
 
 class AddWorkouts extends Component {
@@ -13,7 +13,9 @@ constructor() {
     exercise: '',
     sets: '',
     reps: '',
-    weight: ''
+    weight: '',
+    date: '',
+    posted: false
   }
 }
 
@@ -47,54 +49,73 @@ constructor() {
     })
   }
 
-  handleSubmit = e => {
-    e.preventDefault()
-    const { bodyPart, exercise, sets, reps, weight } = e.target
-    const workout = {
-      bodyPart: bodyPart.value,
-      exercise: exercise.value,
-      sets: sets.value,
-      reps: reps.value,
-      weight: weight.value
-    }
-
-  fetch('https://localhost:8000/addworkout', {
-    method: 'POST',
-    body: JSON.stringify(workout),
-    headers: {
-      'content-type': 'application/json'
-    }
-  })
-
-  .then(res => {
-    if (!res.ok) {
-      throw new Error('Oops, something went wrong. Please try again.')
-    }
-    return res.json()
-  })
-  .then(postedWorkout => {
-    WorkoutsContext.addWorkout(postedWorkout)
-  })
-  .catch(err => {
-    console.log(err)
+  datePosted(date) {
     this.setState({
-      error: err.message
+      date
     })
-  })
-}
+  }
+
+  postedStatus(posted)  {
+    this.setState({
+      posted
+    })
+  }
+
+  
+  // handleSubmit = e => {
+  //   e.preventDefault()
+  //   this.datePosted(new Date())
+
+  //   const { bodyPart, exercise, sets, reps, weight } = e.target
+  //   const workout = {
+  //     bodyPart: bodyPart.value,
+  //     exercise: exercise.value,
+  //     sets: sets.value,
+  //     reps: reps.value,
+  //     weight: weight.value,
+  //     date: this.state.date
+  //   }
+  // }
+
+//   fetch('https://localhost:8000/addworkout', {
+//     method: 'POST',
+//     body: JSON.stringify(workout),
+//     headers: {
+//       'content-type': 'application/json'
+//     }
+//   })
+//   .then(res => {
+//     if (!res.ok) {
+//       throw new Error('Oops, something went wrong. Please try again.')
+//     }
+//     return res.json()
+//   })
+//   .then(res => {
+//     this.postedStatus(true)
+//   })
+//   .catch(err => {
+//     console.log(err)
+//     this.setState({
+//       error: err.message
+//     })
+//   })
+// }
 
   render() {
-    const displayError = (this.state.error) ? <div>{this.state.error}</div> : '';
+    // const displayError = (this.state.error) ? <div>{this.state.error}</div> : ''
+    // const displayPostedMessage = (this.state.posted) ? <div>Congrats, your entry has posted!</div> : ''
+
   	return (
 			<div>
 				<Calendar />
-        {displayError}
+        {/* {displayError}
+        {displayPostedMessage} */}
 				<form className='addworkout_form' onSubmit={e => this.handleSubmit(e)}>
           <label htmlFor='body part'>Body Part:</label>
           <input
             type='text'
-            name='body part'
-            id='body part'
+            name='bodyPart'
+            id='bodyPart'
             placeholder='Chest'
             value={this.state.bodyPart}
 						onChange={e => this.bodyPartChanged(e.target.value)}
@@ -132,6 +153,7 @@ constructor() {
             value={this.state.weight}
             onChange={e => this.weightChanged(e.target.value)}
 						/>
+            <input type ='submit'/>
         </form>
 			</div>
   	)

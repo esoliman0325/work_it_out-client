@@ -12,14 +12,24 @@ constructor(props) {
   super(props);
     this.state = {
       workouts: [],
+      date: ''
     }
 }
 
-addWorkout = workout => {
+
+
+
+updateDate = date => {
   this.setState({
-    workouts: [...this.state.workouts, workout]
+    date
   })
 }
+
+// addWorkout = workout => {
+//   this.setState({
+//     workouts: [...this.state.workouts, workout]
+//   })
+// }
 
 // deleteWorkout = workout => {
 //   const updatedWorkoutList = this.state.workouts.filter(workout => 
@@ -30,6 +40,7 @@ addWorkout = workout => {
   render() {
     const contextValue = {
       workouts: this.state.workouts,
+      date: this.state.date,
       addWorkout: this.addWorkout,
       deleteBookmark: this.deleteWorkout,
       updateBookmark: this.updateWorkout
@@ -41,7 +52,8 @@ addWorkout = workout => {
         <Route exact path='/' component={LandingPage}/>
         <WorkoutsContext.Provider value={contextValue}>
           <Route path='/workouts/add' component={AddWorkouts} /> 
-          <Route path='/workouts/view' component={ViewWorkouts} /> 
+          <Route path='/viewworkouts/' component={ViewWorkouts} />
+          {/* <Route path='/viewworkouts/:date' component={ViewWorkoutByDate} /> */}
         </WorkoutsContext.Provider> 
       </main>
     )
