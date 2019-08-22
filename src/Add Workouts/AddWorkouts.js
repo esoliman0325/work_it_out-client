@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import { Route } from 'react-router-dom';
 import './AddWorkouts.css';
-import Calendar from '../Calendar/Calendar';
+import MyCalendar from '../Calendar/Calendar';
 // import WorkoutsContext from '../WorkoutsContext';
 // import STORE from '../../STORE';
 
@@ -107,7 +107,7 @@ constructor() {
 
   	return (
 			<div>
-				<Calendar />
+				<MyCalendar />
         {/* {displayError}
         {displayPostedMessage} */}
 				<form className='addworkout_form' onSubmit={e => this.handleSubmit(e)}>

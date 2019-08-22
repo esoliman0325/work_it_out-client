@@ -12,26 +12,25 @@ constructor(props) {
   super(props);
     this.state = {
       workouts: [],
-      date: ''
+      date: new Date(),
     }
 }
 
-
-
-
-updateDate = date => {
-  this.setState({
-    date
-  })
-}
-
-// addWorkout = workout => {
+// update date to pass to b/e to use for query 
+// updateDate = date => {
 //   this.setState({
-//     workouts: [...this.state.workouts, workout]
+//   date
 //   })
 // }
 
-// deleteWorkout = workout => {
+// updateWorkout = workouts => {
+//   this.setState({
+//     //check to see if server responds with array of object, if so can remove [] from workouts state above
+//     workouts
+//   })
+// }
+
+// deleteWork = workout => {
 //   const updatedWorkoutList = this.state.workouts.filter(workout => 
 //     workout.id !== workouts.id
 // )
@@ -42,8 +41,7 @@ updateDate = date => {
       workouts: this.state.workouts,
       date: this.state.date,
       addWorkout: this.addWorkout,
-      deleteBookmark: this.deleteWorkout,
-      updateBookmark: this.updateWorkout
+      updateDate: this.updateDate
     }
 
     return (
@@ -53,6 +51,7 @@ updateDate = date => {
         <WorkoutsContext.Provider value={contextValue}>
           <Route path='/workouts/add' component={AddWorkouts} /> 
           <Route path='/viewworkouts/' component={ViewWorkouts} />
+          {/* <Route path='viewworkouts/:date' component={WorkoutDay}/> */}
           {/* <Route path='/viewworkouts/:date' component={ViewWorkoutByDate} /> */}
         </WorkoutsContext.Provider> 
       </main>

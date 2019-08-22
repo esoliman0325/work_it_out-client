@@ -6,7 +6,7 @@ const WorkoutsContext = React.createContext({
     // addWorkout: () => {},
     deleteWorkout: () => {},
     updateWorkout: () => {},
-    updateDate: () => {} 
+    updateDate: () => {},
 })
 
 export default WorkoutsContext;
