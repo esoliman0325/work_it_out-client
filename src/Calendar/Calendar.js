@@ -1,46 +1,3 @@
-// import React, { Component } from 'react';
-// import BigCalendar from 'react-big-calendar'
-// import events from '../events';
-// import moment from 'moment';
-// import 'react-big-calendar/lib/css/react-big-calendar.css';
-// import * as jquery from "jquery";
-
-// // Setup the localizer by providing the moment (or globalize) Object
-// // to the correct localizer.
-// const localizer = BigCalendar.momentLocalizer(moment) // or globalizeLocalizer
-
-// class MyCalendar extends Component {
-//   constructor(props) {
-//     super(props);
-
-//     this.state = {
-//       date: new Date()
-//     }
-//   }
-
-
-
-//   render() {
-//     return (
-//         <div>
-//           <div style={{height: 700}}>
-//           <BigCalendar
-//             date={this.state.date}
-//             onNavigate={date => this.setState({ date })}
-//             style={{height: 400, width: 600}}
-//             localizer={localizer}
-//             events={events}
-//             startAccessor="start"
-//             endAccessor="end"
-//           />
-//           </div>
-//         </div>
-//     )
-//   }
-// }
-
-// export default MyCalendar;
-
 import React, { Component } from "react";
 // import { render } from "react-dom";
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
@@ -48,7 +5,7 @@ import moment from 'moment';
 import events from '../events';
 import * as dates from '../../src/utils/dates'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import WorkoutsContext from '../WorkoutsContext';
+// import WorkoutsContext from '../WorkoutsContext';
 
 moment.locale("en");
 
@@ -63,6 +20,20 @@ const ColoredDateCellWrapper = ({ children }) =>
 
 const localizer = momentLocalizer(moment);
 
+let dateConversionStore = [];
+// using as ex.; date will be populated via onselectslot
+let d = new Date();
+
+dateConversionStore.push(d.getFullYear().toString());
+dateConversionStore.push((d.getMonth() + 1).toString());
+dateConversionStore.push(d.getDate().toString());
+
+let convertedDate = dateConversionStore.join('-');
+console.log(convertedDate)
+
+// update shared date state via context
+// WorkoutsContext.updateDate(convertedDate);
+
 class ReactCalendar extends Component {
   state = {
     view: "month",
@@ -71,63 +42,62 @@ class ReactCalendar extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener("resize", () => {
-      this.setState({
-        width: window.innerWidth,
-        height: window.innerHeight
-      });
-    });
-  }
+    // window.addEventListener("resize", () => {
+    //   this.setState({
+    //     width: window.innerWidth,
+    //     height: window.innerHeight
+    //   });
+    // });
+  
 
-  handleFetch = date =>  {
-    // make sure correct date prints
-    console.log(date);
-    WorkoutsContext.updateDate(date);
-
-
-    fetch(`http://localhost:8000/viewworkouts?${date}`,  {
-		method: 'GET',
-		headers : { 
-			'Content-Type': 'application/json',
-			'Accept': 'application/json'
-			}
-	})
-    .then(res => res.text())
-    .then(res => console.log(res))
-    .then(res => {
-      if(!res.ok) {
-        throw new Error ('Something went wrong. Please try again.')
-      }
-      return res.json()
+    // handleFetch = rawDate => {
+    let today = '2019-08-22'
+    console.log(today)
+    fetch(`http://localhost:8000/viewworkouts/${today}`,  {
+      method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+        }
     })
-    .then(workouts => {
-      WorkoutsContext.updateWorkout(workouts)
-    })
-    .catch(err => console.log(err))
-    .then(data => {
-      console.log(data)
-    });
-  }
+      .then(res => res.json())
+      .then(workouts => console.log(workouts))
+      // .then(res => console.log(res))
+      // .then(res => {
+      //   if(!res.ok) {
+      //     throw new Error ('Something went wrong. Please try again.')
+      //   }
+      //   return res.json()
+      // })
+      // .then(workouts => {
+      //   WorkoutsContext.updateWorkout(workouts)
+      // })
+      // .catch(err => console.log(err));
+    // }
+  // }
+}
+
+
 
   render() {
     return (
       <div>
-<Calendar
-    events={events}
-    views={allViews}
-    step={60}
-    date={this.state.date}
-    onNavigate={date => this.setState({ date })}
-    selectable
-    onSelectSlot={date => this.handleFetch(date)}
-    showMultiDayTimes
-    max={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), -1, 'hours')}
-    defaultDate={new Date(2015, 3, 1)}
-    components={{
-      timeSlotWrapper: ColoredDateCellWrapper,
-    }}
-    localizer={localizer}
-  />
+        <Calendar
+          events={events}
+          views={allViews}
+          step={60}
+          date={this.state.date}
+          onNavigate={date => this.setState({ date })}
+          selectable
+          onSelectSlot={rawDate => this.handleFetch(rawDate)}
+          showMultiDayTimes
+          max={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), -1, 'hours')}
+          defaultDate={new Date(2015, 3, 1)}
+          components={{
+            timeSlotWrapper: ColoredDateCellWrapper,
+          }}
+          localizer={localizer}
+        />
     </div>
     );
   }

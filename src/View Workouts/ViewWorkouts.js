@@ -5,7 +5,7 @@ import './ViewWorkouts.css';
 // import Basic from '../Calendar/Calendar';
 // import ReactCalendar from '../Calendar/Calendar';
 import ReactCalendar from '../Calendar/Calendar';
-import WorkoutsContext from '../WorkoutsContext';
+// import WorkoutsContext from '../WorkoutsContext';
 // import WorkoutDay from '../WorkoutDay/WorkoutDay';
 // import STORE from '../../STORE';
 
