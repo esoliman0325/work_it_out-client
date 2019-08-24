@@ -12,23 +12,18 @@ constructor(props) {
   super(props);
     this.state = {
       workouts: [],
-      date: new Date(),
+      selectedDate: ''
     }
 }
 
-// update date to pass to b/e to use for query 
-// updateDate = date => {
-//   this.setState({
-//   date
-//   })
-// }
 
-// updateWorkout = workouts => {
-//   this.setState({
-//     //check to see if server responds with array of object, if so can remove [] from workouts state above
-//     workouts
-//   })
-// }
+
+updateDate = (selectedDate) => {
+  this.setState({
+    //check to see if server responds with array of object, if so can remove [] from workouts state above
+    selectedDate
+  })
+}
 
 // deleteWork = workout => {
 //   const updatedWorkoutList = this.state.workouts.filter(workout => 
@@ -39,8 +34,6 @@ constructor(props) {
   render() {
     const contextValue = {
       workouts: this.state.workouts,
-      date: this.state.date,
-      addWorkout: this.addWorkout,
       updateDate: this.updateDate
     }
 

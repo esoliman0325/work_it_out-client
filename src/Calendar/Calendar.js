@@ -2,9 +2,10 @@ import React, { Component } from "react";
 // import { render } from "react-dom";
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import moment from 'moment';
-import events from '../events';
-import * as dates from '../../src/utils/dates'
+// import events from '../events';
+import * as dates from '../../src/utils/dates';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import WorkoutsContext from "../WorkoutsContext";
 // import WorkoutsContext from '../WorkoutsContext';
 
 moment.locale("en");
@@ -20,40 +21,37 @@ const ColoredDateCellWrapper = ({ children }) =>
 
 const localizer = momentLocalizer(moment);
 
-let dateConversionStore = [];
-// using as ex.; date will be populated via onselectslot
 let d = new Date();
-
-dateConversionStore.push(d.getFullYear().toString());
-dateConversionStore.push((d.getMonth() + 1).toString());
-dateConversionStore.push(d.getDate().toString());
-
-let convertedDate = dateConversionStore.join('-');
-console.log(convertedDate)
-
-// update shared date state via context
-// WorkoutsContext.updateDate(convertedDate);
+var firstDay = (new Date(d.getFullYear(), d.getMonth(), 1)).toISOString();
+var lastDay = (new Date(d.getFullYear(), d.getMonth() + 1, 0)).toISOString();
+let _events = [];
 
 class ReactCalendar extends Component {
   state = {
     view: "month",
     date: new Date(),
-    width: 500
+    width: 500,
+    height: 500,
+    newWorkouts: []
+  }
+
+  handleSelect = (rawDate) => {
+    let selectedDate = rawDate.toISOString().slice(0, 10);
+    WorkoutsContext.updateDate(selectedDate);
   }
 
   componentDidMount() {
     // window.addEventListener("resize", () => {
     //   this.setState({
-    //     width: window.innerWidth,
-    //     height: window.innerHeight
+    //     width: 500,
+    //     height: 500
     //   });
     // });
-  
+    
+    console.log(firstDay.slice(0, 10), lastDay.slice(0, 10))
 
-    // handleFetch = rawDate => {
-    let today = '2019-08-22'
-    console.log(today)
-    fetch(`http://localhost:8000/viewworkouts/${today}`,  {
+ 
+    fetch(`http://localhost:8000/viewworkouts/${firstDay}/${lastDay}`,  {
       method: 'GET',
       headers : { 
         'Content-Type': 'application/json',
@@ -61,7 +59,30 @@ class ReactCalendar extends Component {
         }
     })
       .then(res => res.json())
-      .then(workouts => console.log(workouts))
+      .then(function(workouts)  { 
+        let new_workouts = workouts.map(workout => { 
+          let returnedWorkouts = {
+            id: workout.id,
+            title: workout.body_part,
+            start: new Date(workout.date),
+            end: new Date(workout.date),
+            exercise: {
+              exercise: workout.exercise,
+              sets: workout.sets,
+              reps: workout.reps,
+              weight: workout.weight
+            }
+          }
+          return returnedWorkouts
+        })
+        _events = new_workouts;
+        console.log(_events);
+      })
+      .then(newWorkouts => this.setState({newWorkouts: _events}, () => 
+        console.log('sdf'))
+      )
+
+      console.log(this.state.newWorkouts)
       // .then(res => console.log(res))
       // .then(res => {
       //   if(!res.ok) {
@@ -80,16 +101,18 @@ class ReactCalendar extends Component {
 
 
   render() {
+    
     return (
-      <div>
+      <div style={{ height: 500, width: 1000 }}>
         <Calendar
-          events={events}
+          events={_events}
           views={allViews}
+          height={this.state.height}
           step={60}
           date={this.state.date}
           onNavigate={date => this.setState({ date })}
           selectable
-          onSelectSlot={rawDate => this.handleFetch(rawDate)}
+          onSelectSlot={(rawDate) => this.handleSelect(rawDate.end)}
           showMultiDayTimes
           max={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), -1, 'hours')}
           defaultDate={new Date(2015, 3, 1)}
