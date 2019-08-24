@@ -24,20 +24,26 @@ const localizer = momentLocalizer(moment);
 let d = new Date();
 var firstDay = (new Date(d.getFullYear(), d.getMonth(), 1)).toISOString();
 var lastDay = (new Date(d.getFullYear(), d.getMonth() + 1, 0)).toISOString();
-let _events = [];
+let events = [];
 
 class ReactCalendar extends Component {
+
+  static contextType = WorkoutsContext;
+
   state = {
     view: "month",
     date: new Date(),
     width: 500,
     height: 500,
-    newWorkouts: []
   }
 
-  handleSelect = (rawDate) => {
-    let selectedDate = rawDate.toISOString().slice(0, 10);
-    WorkoutsContext.updateDate(selectedDate);
+  handleSelect = rawDate => {
+    let selectedDate = rawDate.toISOString().slice(0, 10)
+    this.context.updateDate(selectedDate)
+  }
+
+  handleWorkouts = workouts => {
+    this.context.updateWorkouts(workouts)
   }
 
   componentDidMount() {
@@ -66,7 +72,7 @@ class ReactCalendar extends Component {
             title: workout.body_part,
             start: new Date(workout.date),
             end: new Date(workout.date),
-            exercise: {
+            exercises: {
               exercise: workout.exercise,
               sets: workout.sets,
               reps: workout.reps,
@@ -75,14 +81,13 @@ class ReactCalendar extends Component {
           }
           return returnedWorkouts
         })
-        _events = new_workouts;
-        console.log(_events);
+        events = new_workouts;
+        // console.log(events, 'workouts')
+        return events
       })
-      .then(newWorkouts => this.setState({newWorkouts: _events}, () => 
-        console.log('sdf'))
-      )
+      .then(events => this.handleWorkouts(events))
 
-      console.log(this.state.newWorkouts)
+      // console.log(this.state.newWorkouts, 'hi')
       // .then(res => console.log(res))
       // .then(res => {
       //   if(!res.ok) {
@@ -101,28 +106,31 @@ class ReactCalendar extends Component {
 
 
   render() {
-    
+
     return (
+
       <div style={{ height: 500, width: 1000 }}>
-        <Calendar
-          events={_events}
-          views={allViews}
-          height={this.state.height}
-          step={60}
-          date={this.state.date}
-          onNavigate={date => this.setState({ date })}
-          selectable
-          onSelectSlot={(rawDate) => this.handleSelect(rawDate.end)}
-          showMultiDayTimes
-          max={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), -1, 'hours')}
-          defaultDate={new Date(2015, 3, 1)}
-          components={{
-            timeSlotWrapper: ColoredDateCellWrapper,
-          }}
-          localizer={localizer}
-        />
-    </div>
-    );
+          <Calendar
+            events={events}
+            views={allViews}
+            height={this.state.height}
+            step={60}
+            date={this.state.date}
+            onNavigate={date => this.setState({ date })}
+            selectable
+            onSelectSlot={(rawDate) => this.handleSelect(rawDate.end)}
+            showMultiDayTimes
+            max={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), -1, 'hours')}
+            defaultDate={new Date(2015, 3, 1)}
+            components={{
+              timeSlotWrapper: ColoredDateCellWrapper,
+            }}
+            localizer={localizer}
+          />
+      </div>
+
+
+    )
   }
 }
 

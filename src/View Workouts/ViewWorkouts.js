@@ -5,11 +5,13 @@ import './ViewWorkouts.css';
 // import Basic from '../Calendar/Calendar';
 // import ReactCalendar from '../Calendar/Calendar';
 import ReactCalendar from '../Calendar/Calendar';
+import WorkoutsContext from '../WorkoutsContext';
 // import WorkoutsContext from '../WorkoutsContext';
 // import WorkoutDay from '../WorkoutDay/WorkoutDay';
 // import STORE from '../../STORE';
 
 class ViewWorkouts extends Component {
+	static contexType = WorkoutsContext;
 
 // use for dynamic routing route params ?date={this.state.date}
 // componentDidMount() {
@@ -59,13 +61,26 @@ class ViewWorkouts extends Component {
 //   }
 
   render() {
-		// const displayedDay = STORE.find(this.context.date);
+	let { workouts, selectedDate } = this.context;
+	// let currentWorkouts = workouts;
+
+	// example of trying to access selected date via context -- retuerning undefined
+	console.log(selectedDate, 'selected Date');
+	// example of trying to access workouts array via context -- returning undefined-- ultimately need to map/find workouts with date in selected Date
+	console.log(workouts, 'Workouts');
+	// console.log(currentWorkouts.map(workout => workout[0]))
   	return (
+		<WorkoutsContext.Consumer>
+			{(context) => (
 			<div>
 				<ReactCalendar />
+				{context.selectedDate}
+				{/* {context.workouts[0].title} */}
 				{/* will map over results in workouts array via context to display instances of each individual workouts*/}
 				{/* {WorkoutsContext.workouts.exercise} */}
 			</div>
+			)}
+		</WorkoutsContext.Consumer>
   	)
 	}
 }

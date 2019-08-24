@@ -3,9 +3,9 @@ import React from 'react';
 const WorkoutsContext = React.createContext({
     workouts: [],
     selectedDate: '',
-    addWorkout: () => {},
-    deleteWorkout: () => {},
-    updateWorkout: () => {},
+    // addWorkout: () => {},
+    // deleteWorkout: () => {},
+    updateWorkouts: () => {},
     updateDate: () => {}
 })
 

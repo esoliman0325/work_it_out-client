@@ -16,32 +16,35 @@ constructor(props) {
     }
 }
 
-
-
-updateDate = (selectedDate) => {
+updateDate = selectedDate => {
   this.setState({
-    //check to see if server responds with array of object, if so can remove [] from workouts state above
     selectedDate
   })
+  console.log(this.state.selectedDate, 'selected date')
 }
 
-// deleteWork = workout => {
-//   const updatedWorkoutList = this.state.workouts.filter(workout => 
-//     workout.id !== workouts.id
-// )
-// }
+updateWorkouts = workouts => {
+  
+  this.setState({
+    workouts
+  })
+  console.log(this.state.workouts, 'hi frontend workout')
+}
+
 
   render() {
     const contextValue = {
       workouts: this.state.workouts,
-      updateDate: this.updateDate
+      selectedDate: this.state.selectedDate,
+      updateDate: this.updateDate,
+      updateWorkouts: this.updateWorkouts
     }
 
     return (
       <main className='App'>
+      <WorkoutsContext.Provider value={contextValue}>
         <PageNav />
         <Route exact path='/' component={LandingPage}/>
-        <WorkoutsContext.Provider value={contextValue}>
           <Route path='/workouts/add' component={AddWorkouts} /> 
           <Route path='/viewworkouts/' component={ViewWorkouts} />
           {/* <Route path='viewworkouts/:date' component={WorkoutDay}/> */}
