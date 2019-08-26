@@ -20,7 +20,7 @@ updateDate = selectedDate => {
   this.setState({
     selectedDate
   })
-  // console.log(this.state.selectedDate, 'selected date')
+  console.log(this.state.selectedDate, 'selected date')
 }
 
 updateWorkouts = workouts => {

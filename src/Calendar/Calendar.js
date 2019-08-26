@@ -38,7 +38,7 @@ class ReactCalendar extends Component {
   }
 
   handleSelect = rawDate => {
-    let selectedDate = rawDate.toISOString().slice(0, 10)
+    let selectedDate = rawDate.toISOString()
     this.context.updateDate(selectedDate)
   }
 
@@ -70,8 +70,8 @@ class ReactCalendar extends Component {
           let returnedWorkouts = {
             id: workout.id,
             title: workout.body_part,
-            start: new Date(workout.date),
-            end: new Date(workout.date),
+            start: workout.date,
+            end: workout.date,
             exercises: {
               exercise: workout.exercise,
               sets: workout.sets,
@@ -81,8 +81,8 @@ class ReactCalendar extends Component {
           }
           return returnedWorkouts
         })
+
         events = new_workouts;
-        // console.log(events, 'workouts')
         return events
       })
       .then(events => this.handleWorkouts(events))
@@ -106,10 +106,8 @@ class ReactCalendar extends Component {
 
 
   render() {
-
     return (
-
-      <div style={{ height: 500, width: 1000 }}>
+      <div style={{ height: 500, width: 1000, position: 'relative' }}>
           <Calendar
             events={events}
             views={allViews}
@@ -128,8 +126,6 @@ class ReactCalendar extends Component {
             localizer={localizer}
           />
       </div>
-
-
     )
   }
 }

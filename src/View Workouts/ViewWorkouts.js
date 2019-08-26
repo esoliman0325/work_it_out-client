@@ -60,30 +60,52 @@ class ViewWorkouts extends Component {
 //     });
 //   }
 
-  render() {
+	render() {
+	console.log(this.context.workouts, 'full array');
+	let arrayLoaded = this.context.workouts[0] ? true : false;
+	let workoutData = this.context.workouts;
+	let selectedWorkouts;
+
+
+	if (arrayLoaded && this.context.selectedDate) {
+		let filteredWorkouts = workoutData.filter(workout => 
+			workout.start.includes(this.context.selectedDate))
+
+		selectedWorkouts = filteredWorkouts.map(workout => 
+			<div>
+				{workout.title}
+				{workout.exercises.exercise}
+				{workout.exercises.sets}
+				{workout.exercises.reps}
+				{workout.exercises.weight}
+			</div>
+		)
+		return selectedWorkouts
+		// console.log(selectedWorkouts);
+		// workout = <div>{this.context.workouts[0].title}</div>
+		// console.log(workoutbyDate, 'workouts')
+	}
+
 	// let { workouts, selectedDate } = this.context;
 	// let currentWorkouts = workouts;
 	// let like = this.context.workouts;
-	console.log(this.context.workouts[0].title, 'vw context')
-	console.log(this.context.selectedDate, 'vw date')
+	// console.log(this.context.workouts[0].title, 'vw context')
+	// console.log(this.context.selectedDate, 'vw date')s
 	// example of trying to access selected date via context -- retuerning undefined
 	// console.log(this.context.selectedDate, 'selected Date');
 	// example of trying to access workouts array via context -- returning undefined-- ultimately need to map/find workouts with date in selected Date
 	// console.log(workouts, 'Workouts');
 	// console.log(currentWorkouts.map(workout => workout[0]))
   	return (
-		<WorkoutsContext.Consumer>
-			{(context) => (
+		<div>
+			<ReactCalendar />
 			<div>
-				<ReactCalendar />
-				{context.selectedDate}
-				{/* {like} */}
-				{/* {context.workouts[0].title} */}
-				{/* will map over results in workouts array via context to display instances of each individual workouts*/}
-				{/* {WorkoutsContext.workouts.exercise} */}
+				{selectedWorkouts}
 			</div>
-			)}
-		</WorkoutsContext.Consumer>
+			{/* {context.workouts[0].title} */}
+			{/* will map over results in workouts array via context to display instances of each individual workouts*/}
+			{/* {WorkoutsContext.workouts.exercise} */}
+		</div>
   	)
 	}
 }
