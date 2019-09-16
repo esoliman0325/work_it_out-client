@@ -6,45 +6,129 @@ import LandingPage from '../Landing Page/LandingPage';
 import AddWorkouts from '../Add Workouts/AddWorkouts';
 import ViewWorkouts from '../View Workouts/ViewWorkouts';
 import WorkoutsContext from '../WorkoutsContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDumbbell } from '@fortawesome/free-solid-svg-icons'
+import './App.css'
 
 class App extends Component {
+static contextType = WorkoutsContext;
 constructor(props) {
   super(props);
     this.state = {
       workouts: [],
-      selectedDate: ''
+      selectedDate: '',
+      events: [],
+      workoutId: 0,
+      workoutBodyIdRef: 0
     }
+}
+
+updateWorkoutId = workoutId => {
+  console.log('workout id')
+  this.setState({
+    workoutId
+  })
+}
+
+updateWorkoutBodyIdRef = workoutBodyIdRef => {
+  console.log('workout body id ref')
+  this.setState({
+    workoutBodyIdRef
+  })
 }
 
 updateDate = selectedDate => {
   this.setState({
     selectedDate
   })
-  console.log(this.state.selectedDate, 'selected date')
+  console.log(this.state.selectedDate, 'selected date state')
 }
 
 updateWorkouts = workouts => {
   this.setState({
     workouts
   })
-  // console.log(this.state.workouts, 'hi frontend workout')
+  console.log(this.state.workouts, 'workouts state')
 }
 
+updateEvents = events => {
+  this.setState({
+    events
+  })
+  console.log(events, 'events state')
+}
+
+addEvent = addEvents => {
+  let eventDate = addEvents.start;
+  let eventTitle = addEvents.title;
+  let filteredDate = this.state.events.filter(event => event.start === eventDate);
+  let findTitle = filteredDate.find(event => event.title === eventTitle);
+
+  if (!findTitle) {
+    this.setState ({
+      events: [...this.state.events, addEvents]
+    })
+  }
+}
+
+addWorkout = workout => {
+  this.setState({
+    workouts: [...this.state.workouts, workout]
+  })
+  console.log(this.state.workouts, 'post workouts state')
+}
+
+deleteWorkout = workoutId => {
+  let newWorkouts = this.state.workouts.filter(workout => workout.exercises.workoutId !== workoutId)
+  this.setState({
+    workouts: newWorkouts
+  })
+}
+
+deleteEvent = workoutBodyIdRef => {
+  console.log('delete event', workoutBodyIdRef)
+  let filteredWorkouts = this.state.workouts.filter(workout => workout.exercises.workoutBodyIdRef === workoutBodyIdRef);
+
+  if(filteredWorkouts.length < 1) {
+    let newEvents = this.state.events.filter(event => event.id !== workoutBodyIdRef)
+    this.setState({
+      events: newEvents
+    })
+  }
+}
 
   render() {
+    const dumbBell = <FontAwesomeIcon icon={faDumbbell} style={{color: 'green'}} size='lg'/>
     const contextValue = {
       workouts: this.state.workouts,
       selectedDate: this.state.selectedDate,
+      events: this.state.events,
+      workoutId: this.state.workoutId,
+      workoutBodyIdRef: this.state.workoutBodyIdRef,
+      deleteWorkout: this.deleteWorkout,
+      deleteEvent: this.deleteEvent,
+      updateWorkoutId: this.updateWorkoutId,
+      updateWorkoutBodyIdRef: this.updateWorkoutBodyIdRef,
       updateDate: this.updateDate,
-      updateWorkouts: this.updateWorkouts
+      updateWorkouts: this.updateWorkouts,
+      updateEvents: this.updateEvents,
+      addWorkout: this.addWorkout,
+      addEvent: this.addEvent
     }
 
     return (
-      <main className='App'>
-      <WorkoutsContext.Provider value={contextValue}>
+      <main className='app'>
+        <WorkoutsContext.Provider value={contextValue}>
+        <div className='work-it-out-heading-container'>
+          <h2 className='work-it-out-heading'>
+            {dumbBell}
+            WORK IT OUT
+          </h2>
+          {/* <p>Work it Out allows you to create and keep track of custom workout plans based on what works for you.</p> */}
+        </div>
         <PageNav />
         <Route exact path='/' component={LandingPage}/>
-          <Route path='/workouts/add' component={AddWorkouts} /> 
+          <Route path='/addworkouts' component={AddWorkouts} /> 
           <Route path='/viewworkouts/' component={ViewWorkouts} />
           {/* <Route path='viewworkouts/:date' component={WorkoutDay}/> */}
           {/* <Route path='/viewworkouts/:date' component={ViewWorkoutByDate} /> */}

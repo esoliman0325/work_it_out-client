@@ -5,6 +5,7 @@ import moment from 'moment';
 // import events from '../events';
 import * as dates from '../../src/utils/dates';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import './Calendar.css'
 import WorkoutsContext from "../WorkoutsContext";
 // import WorkoutsContext from '../WorkoutsContext';
 
@@ -21,10 +22,18 @@ const ColoredDateCellWrapper = ({ children }) =>
 
 const localizer = momentLocalizer(moment);
 
+// var date = new Date();
+// date.setDate( date.getDate() - 6 );
+
 let d = new Date();
+
+// to bring date back to sept to load sept data...for testing will not use in prod 
+let sept = new Date(d.setDate(d.getDate()-20));
+d = sept 
+
 var firstDay = (new Date(d.getFullYear(), d.getMonth(), 1)).toISOString();
 var lastDay = (new Date(d.getFullYear(), d.getMonth() + 1, 0)).toISOString();
-let events = [];
+// let events = [];
 
 class ReactCalendar extends Component {
 
@@ -39,22 +48,24 @@ class ReactCalendar extends Component {
 
   handleSelect = rawDate => {
     let selectedDate = rawDate.toISOString()
+    console.log(selectedDate, 'hiii')
     this.context.updateDate(selectedDate)
   }
 
-  handleWorkouts = workouts => {
-    this.context.updateWorkouts(workouts)
+  handleEventsWorkouts = (newEventsWorkouts) => {
+    this.context.updateEvents(newEventsWorkouts[0])
+    this.context.updateWorkouts(newEventsWorkouts[1])
   }
 
   componentDidMount() {
-    // window.addEventListener("resize", () => {
-    //   this.setState({
-    //     width: 500,
-    //     height: 500
-    //   });
-    // });
+    window.addEventListener("resize", () => {
+      this.setState({
+        width: 500,
+        height: 500
+      });
+    });
     
-    console.log(firstDay.slice(0, 10), lastDay.slice(0, 10))
+    console.log(firstDay, lastDay)
 
  
     fetch(`http://localhost:8000/viewworkouts/${firstDay}/${lastDay}`,  {
@@ -65,10 +76,21 @@ class ReactCalendar extends Component {
         }
     })
       .then(res => res.json())
-      .then(function(workouts)  { 
-        let new_workouts = workouts.map(workout => { 
+      .then(response => {
+        console.log(response, 'array') 
+        let newEvents = response.body.map(res => { 
+          let returnedBody = {
+            id: res.id,
+            title: res.body_part,
+            start: res.date,
+            end: res.date
+          }
+          return returnedBody
+        })
+
+        let newWorkouts = response.all.map(workout => { 
           let returnedWorkouts = {
-            id: workout.id,
+            id: workout.body_id,
             title: workout.body_part,
             start: workout.date,
             end: workout.date,
@@ -76,50 +98,47 @@ class ReactCalendar extends Component {
               exercise: workout.exercise,
               sets: workout.sets,
               reps: workout.reps,
-              weight: workout.weight
+              weight: workout.weight,
+              workoutId: workout.workoutId,
+              workoutBodyIdRef: workout.body_id_reference
             }
           }
           return returnedWorkouts
         })
+          let newEventsWorkouts = [newEvents, newWorkouts]
 
-        events = new_workouts;
-        return events
+        return newEventsWorkouts
       })
-      .then(events => this.handleWorkouts(events))
-
-      // console.log(this.state.newWorkouts, 'hi')
-      // .then(res => console.log(res))
-      // .then(res => {
-      //   if(!res.ok) {
-      //     throw new Error ('Something went wrong. Please try again.')
-      //   }
-      //   return res.json()
-      // })
-      // .then(workouts => {
-      //   WorkoutsContext.updateWorkout(workouts)
-      // })
-      // .catch(err => console.log(err));
-    // }
-  // }
+      .then((newEventsWorkouts) => this.handleEventsWorkouts(newEventsWorkouts))
 }
 
-
+// hightlightDay = (end) => {
+//   console.log(end)
+//   if (end) {
+//     let style = {
+//       backgroundColor: 'purple'
+//     }
+//   return {style: style}
+//   } 
+// }
 
   render() {
     return (
-      <div style={{ height: 500, width: 1000, position: 'relative' }}>
+      <div className='calendar-container' style={{ height: 500, width: 1000 }}>
           <Calendar
-            events={events}
-            views={allViews}
+            events={this.context.events}
+            views = {['month']}
             height={this.state.height}
             step={60}
             date={this.state.date}
             onNavigate={date => this.setState({ date })}
             selectable
+            eventPropGetter={event => ({className: 'title-' + event.title.toLowerCase()})}
+            // dayPropGetter={end => this.hightlightDay(end)}
             onSelectSlot={(rawDate) => this.handleSelect(rawDate.end)}
             showMultiDayTimes
             max={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), -1, 'hours')}
-            defaultDate={new Date(2015, 3, 1)}
+            defaultDate={new Date()}
             components={{
               timeSlotWrapper: ColoredDateCellWrapper,
             }}

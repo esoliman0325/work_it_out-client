@@ -1,0 +1,33 @@
+.fa-dumbbell > path {
+    color: ;
+  }
+
+h2 {
+    color: #00AB89;
+}
+
+.fa-dumbbell {
+    position: relative;
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.work-it-out-heading-container {
+    height: 100px;
+    margin-top: -10px;
+    margin-bottom: 100px;
+    margin-left: 0px;
+    background-color: black;
+    opacity: .8;
+    width: 100%;
+}
+
+.work-it-out-heading {
+    text-align: center;
+    margin-top: 10px;
+    position: relative;
+    top: 20px;
+    /* width: fit-content;
+    margin: 0 auto; */
+}

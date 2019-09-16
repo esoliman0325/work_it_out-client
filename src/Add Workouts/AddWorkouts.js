@@ -1,27 +1,28 @@
 import React, { Component } from 'react';
 // import { Route } from 'react-router-dom';
 import './AddWorkouts.css';
-import MyCalendar from '../Calendar/Calendar';
-// import WorkoutsContext from '../WorkoutsContext';
+// import MyCalendar from '../Calendar/Calendar';
+import ReactCalendar from '../Calendar/Calendar';
+import WorkoutsContext from '../WorkoutsContext';
 // import STORE from '../../STORE';
 
 class AddWorkouts extends Component {
-constructor() {
-  super();
-  this.state = {
-    bodyPart: '',
-    exercise: '',
-    sets: '',
-    reps: '',
-    weight: '',
-    date: '',
-    posted: false
-  }
-}
+  static contextType = WorkoutsContext;
 
-  bodyPartChanged(bodyPart) {
+  constructor() {
+    super();
+    this.state = {
+      bodypart: '',
+      exercise: '',
+      sets: '',
+      reps: '',
+      weight: ''
+    }
+  }
+
+  bodyPartChanged(bodypart) {
     this.setState({
-      bodyPart
+      bodypart
     })
   }
 
@@ -61,45 +62,70 @@ constructor() {
     })
   }
 
+  handlePostedWorkoutEvent = postedWorkoutEvent => {
+    this.context.addWorkout(postedWorkoutEvent[0])
+    this.context.addEvent(postedWorkoutEvent[1])
+  }
   
-  // handleSubmit = e => {
-  //   e.preventDefault()
-  //   this.datePosted(new Date())
+  handleSubmit = e => {
+    e.preventDefault()
 
-  //   const { bodyPart, exercise, sets, reps, weight } = e.target
-  //   const workout = {
-  //     bodyPart: bodyPart.value,
-  //     exercise: exercise.value,
-  //     sets: sets.value,
-  //     reps: reps.value,
-  //     weight: weight.value,
-  //     date: this.state.date
-  //   }
-  // }
+    const { bodypart, exercise, sets, reps, weight } = this.state;
+    let workout = {
+      body_part: bodypart,
+      exercise: exercise,
+      sets: sets,
+      reps: reps,
+      weight: weight,
+      date: this.context.selectedDate
+    }
 
-//   fetch('https://localhost:8000/addworkout', {
-//     method: 'POST',
-//     body: JSON.stringify(workout),
-//     headers: {
-//       'content-type': 'application/json'
-//     }
-//   })
-//   .then(res => {
-//     if (!res.ok) {
-//       throw new Error('Oops, something went wrong. Please try again.')
-//     }
-//     return res.json()
-//   })
-//   .then(res => {
-//     this.postedStatus(true)
-//   })
-//   .catch(err => {
-//     console.log(err)
-//     this.setState({
-//       error: err.message
-//     })
-//   })
-// }
+  fetch('http://localhost:8000/addworkouts', {
+    method: 'POST',
+    body: JSON.stringify(workout),
+    headers: {
+      'content-type': 'application/json'
+    }
+  })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Oops, something went wrong with posting your workout. Please try again.')
+      }
+      return res.json()
+    })
+    .then(post => {
+      let workout = post[0]
+      let postedWorkout = {
+        id: workout.body_id,
+        title: workout.body_part,
+        start: workout.date,
+        end: workout.date,
+        exercises: {
+          exercise: workout.exercise,
+          sets: workout.sets,
+          reps: workout.reps,
+          weight: workout.weight,
+          workoutId: workout.workoutId,
+          workoutBodyIdRef: workout.body_id_reference
+        }
+      }
+
+      let postedEvent = {
+          id: workout.body_id,
+          title: workout.body_part,
+          start: workout.date,
+          end: workout.date
+      }
+
+      let postedWorkoutEvent = [postedWorkout, postedEvent]
+      return postedWorkoutEvent
+    })
+    .then(postedWorkoutEvent => this.handlePostedWorkoutEvent(postedWorkoutEvent))
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
 
   render() {
     // const displayError = (this.state.error) ? <div>{this.state.error}</div> : ''
@@ -107,15 +133,15 @@ constructor() {
 
   	return (
 			<div>
-				<MyCalendar />
+				<ReactCalendar />
         {/* {displayError}
         {displayPostedMessage} */}
 				<form className='addworkout_form' onSubmit={e => this.handleSubmit(e)}>
           <label htmlFor='body part'>Body Part:</label>
           <input
             type='text'
-            name='bodyPart'
-            id='bodyPart'
+            name='bodypart'
+            id='bodypart'
             placeholder='Chest'
             value={this.state.bodyPart}
 						onChange={e => this.bodyPartChanged(e.target.value)}
@@ -159,5 +185,4 @@ constructor() {
   	)
 	}
 }
-
 export default AddWorkouts;

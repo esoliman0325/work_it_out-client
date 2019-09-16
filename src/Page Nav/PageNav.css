@@ -1,32 +1,47 @@
+* {
+    color: white;
+}
+
+.hamburger-options-container {
+    width: 15%;
+    background-color: black;
+    border: solid 1px rgba(228, 225, 225, 0.993);
+    height: 100vw;
+    position: fixed;
+    top: 100px;
+    z-index: 1;
+    opacity: .95;
+}
+
+.hamburger-all-container {
+    position: relative;
+    width: 15%;
+    bottom: 210px;
+}
+
 button {
+    margin-bottom: 25px;
+    display: block;
     background: none;
     border: none;
     font-size: 14px;
     cursor: pointer;
 }
 
-.dropdown {
-    display: inline-block;
-    position: relative;
+.hamburger {
     width: fit-content;
+    margin-top: 40px;
+    margin-bottom: 50px;
+    margin-left: 25px;
+    cursor: pointer;
+    position: fixed;
 }
 
-.dropdown-content {
-    position: absolute;
-    font-size: 12px;
-    display: none;
-}
-
-.add-workout-link, .view-workout-link {
-    display: block;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.add-workout-link:hover, .view-workout-link:hover {
-    color: purple;
-}
+.hamburger div {
+    width: 35px;
+    height: 5px;
+    background-color: white;
+    margin: 6px 0;
+  }
 
 

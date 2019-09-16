@@ -1,3 +1,48 @@
+html {
+    height: 100%;
+    background-image: url('../Assets/gym-wallpapers-3.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    color: white;
+    /* background-color: black; */
+}
+
+.sign-up {
+    font-weight: 700;
+    color: #04424D;
+    padding: 10px;
+    background-color: rgba(228, 225, 225, 0.993);
+    width: 10%;
+    height: 5%;
+    border: solid 1px gray;
+    border-radius: 15px;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
 .landing-page-container {
-    margin-top: 50px;
+    display: block;
+    text-align: center;
+    float: right;
+    width: 100vw;
+}
+
+.work-it-out-body {
+    margin-top: 0px;
+    margin-bottom: 100px;
+}
+
+.what-is {
+    background-color: gray;
+    width: 400px;
+    height: 300px;
+    border: solid 2px black;
+    margin: 0 auto;
+    border-radius: 7px;
+
+}
+
+h2 {
+    /* float: right; */
 }

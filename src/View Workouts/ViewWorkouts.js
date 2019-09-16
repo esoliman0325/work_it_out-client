@@ -13,52 +13,26 @@ import WorkoutsContext from '../WorkoutsContext';
 class ViewWorkouts extends Component {
 	static contextType = WorkoutsContext;
 
-// use for dynamic routing route params ?date={this.state.date}
-// componentDidMount() {
-// 	fetch('http://localhost:8000/viewworkouts',  {
-// 		method: 'GET',
-// 		headers : { 
-// 			'Content-Type': 'application/json',
-// 			'Accept': 'application/json'
-// 			}
-// 	})
-// 	.then(response => response.text())
-// 	.then(response => console.log(response))
-// 	.catch(err => console.log(err))
-// 	// .then(data => {
-// 	// 	console.log(data)
-// 	// });
-// 	}
+	handleDelete = (workoutId, workoutBodyIdRef) => {
+		this.context.updateWorkoutId(workoutId)
+		this.context.updateWorkoutBodyIdRef(workoutBodyIdRef)
 
-// componentDidMount() {
-//     let $ = jquery;
-//     $(document).ready(function (){
-//       $(".rbc-date-cell").hover(function(event) {
-//         let day_of_month = $(event.currentTarget).find('a').text();
-//         $(event.currentTarget).find('a').attr('href', day_of_month);
-//       })
-
-//       $(".rbc-date-cell").click(function(event) {
-//         let day_of_month = $(event.currentTarget).find('a').text();
-//         let url = 'http://localhost:3000/viewworkouts/' + day_of_month;
-//         console.log("Date: August " + day_of_month);
-        
-//         // Construct Date
-        
-//         // Do GET
-
-//         window.location.replace(url);
-
-
-
-
-//         // Show returned data below calendar
-
-//       }).css({
-//         height:'76px',
-//       });
-//     });
-//   }
+		fetch(`http://localhost:8000/viewworkouts/${this.context.workoutId}/${this.context.workoutBodyIdRef}`, {
+			method: 'DELETE',
+			headers: {
+				'content-type': 'application/json'
+			}
+		})
+		.then(res => {
+			if(!res.ok) {
+				throw new Error('Oops, something went wrong with deleting your workout. Please try again.')
+			}
+			console.log('server response')
+			// res.json() //return deleted workout Id, then update workout via context below, which will auto trigger re-render and display current workouts
+		})
+		.then(() => {console.log("debug"); this.context.deleteWorkout(this.context.workoutId); this.context.deleteEvent(this.context.workoutBodyIdRef)})
+		.catch(err => console.log(err))
+	}
 
 	render() {
 	console.log(this.context.workouts, 'full array');
@@ -78,33 +52,19 @@ class ViewWorkouts extends Component {
 				{workout.exercises.sets}
 				{workout.exercises.reps}
 				{workout.exercises.weight}
+				<button onClick={() => 
+					this.handleDelete(workout.exercises.workoutId, workout.exercises.workoutBodyIdRef)} type='button'>delete
+				</button>
 			</div>
 		)
-		return selectedWorkouts
-		// console.log(selectedWorkouts);
-		// workout = <div>{this.context.workouts[0].title}</div>
-		// console.log(workoutbyDate, 'workouts')
 	}
 
-	// let { workouts, selectedDate } = this.context;
-	// let currentWorkouts = workouts;
-	// let like = this.context.workouts;
-	// console.log(this.context.workouts[0].title, 'vw context')
-	// console.log(this.context.selectedDate, 'vw date')s
-	// example of trying to access selected date via context -- retuerning undefined
-	// console.log(this.context.selectedDate, 'selected Date');
-	// example of trying to access workouts array via context -- returning undefined-- ultimately need to map/find workouts with date in selected Date
-	// console.log(workouts, 'Workouts');
-	// console.log(currentWorkouts.map(workout => workout[0]))
   	return (
 		<div>
-			<ReactCalendar />
-			<div>
+			<ReactCalendar />	
+			<div className='workouts-container'>
 				{selectedWorkouts}
 			</div>
-			{/* {context.workouts[0].title} */}
-			{/* will map over results in workouts array via context to display instances of each individual workouts*/}
-			{/* {WorkoutsContext.workouts.exercise} */}
 		</div>
   	)
 	}
