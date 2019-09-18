@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 // import STORE from '../STORE';
 import PageNav from '../Page Nav/PageNav';
 import LandingPage from '../Landing Page/LandingPage';
@@ -19,7 +19,8 @@ constructor(props) {
       selectedDate: '',
       events: [],
       workoutId: 0,
-      workoutBodyIdRef: 0
+      workoutBodyIdRef: 0,
+      showMenu: false
     }
 }
 
@@ -37,10 +38,15 @@ updateWorkoutBodyIdRef = workoutBodyIdRef => {
   })
 }
 
-updateDate = selectedDate => {
+updateShowMenu = () => {
+  console.log('menu app level')
   this.setState({
-    selectedDate
+    showMenu: !this.state.showMenu
   })
+}
+
+updateDate = (selectedDate, nullDate) => {
+  selectedDate ? this.setState({selectedDate}) : this.setState({selectedDate: nullDate});
   console.log(this.state.selectedDate, 'selected date state')
 }
 
@@ -105,8 +111,10 @@ deleteEvent = workoutBodyIdRef => {
       events: this.state.events,
       workoutId: this.state.workoutId,
       workoutBodyIdRef: this.state.workoutBodyIdRef,
+      showMenu: this.state.showMenu,
       deleteWorkout: this.deleteWorkout,
       deleteEvent: this.deleteEvent,
+      updateShowMenu: this.updateShowMenu,
       updateWorkoutId: this.updateWorkoutId,
       updateWorkoutBodyIdRef: this.updateWorkoutBodyIdRef,
       updateDate: this.updateDate,
@@ -122,7 +130,7 @@ deleteEvent = workoutBodyIdRef => {
         <div className='work-it-out-heading-container'>
           <h2 className='work-it-out-heading'>
             {dumbBell}
-            WORK IT OUT
+            <Link className='logo' to='/'>WORK IT OUT</Link>
           </h2>
           {/* <p>Work it Out allows you to create and keep track of custom workout plans based on what works for you.</p> */}
         </div>

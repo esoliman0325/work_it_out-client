@@ -28,7 +28,7 @@ const localizer = momentLocalizer(moment);
 let d = new Date();
 
 // to bring date back to sept to load sept data...for testing will not use in prod 
-let sept = new Date(d.setDate(d.getDate()-20));
+let sept = new Date(d.setDate(d.getDate()-30));
 d = sept 
 
 var firstDay = (new Date(d.getFullYear(), d.getMonth(), 1)).toISOString();
@@ -40,10 +40,38 @@ class ReactCalendar extends Component {
   static contextType = WorkoutsContext;
 
   state = {
-    view: "month",
+    view: ["month"],
     date: new Date(),
     width: 500,
     height: 500,
+  }
+
+  setView = (view) => {
+    this.setState({view});
+  }
+
+    /**
+
+   * Calculate & Update state of new dimensions
+
+   */
+
+  updateDimensions() {
+    if(window.innerWidth < 500) {
+      this.setState({ width: 450, height: 102 });
+      this.setView(["agenda"]);
+
+    } else {
+      let update_width  = window.innerWidth-100;
+      let update_height = Math.round(update_width/4.4);
+
+      this.setState({ width: update_width, height: update_height });
+      this.setView(["month"]);
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateDimensions.bind(this));
   }
 
   handleSelect = rawDate => {
@@ -125,9 +153,11 @@ class ReactCalendar extends Component {
   render() {
     return (
       <div className='calendar-container' style={{ height: 500, width: 1000 }}>
+        <button onClick={()=>this.setView()} >Change View</button>
           <Calendar
             events={this.context.events}
-            views = {['month']}
+            views = {['month', 'agenda']}
+            view={this.state.view}
             height={this.state.height}
             step={60}
             date={this.state.date}

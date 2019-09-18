@@ -1,9 +1,7 @@
-.fa-dumbbell > path {
-    color: ;
-  }
 
-h2 {
+h2, .logo {
     color: #00AB89;
+    text-decoration: none;
 }
 
 .fa-dumbbell {
@@ -16,9 +14,9 @@ h2 {
 .work-it-out-heading-container {
     height: 100px;
     margin-top: -10px;
-    margin-bottom: 100px;
     margin-left: 0px;
     background-color: black;
+    border-bottom: solid 1px gray;
     opacity: .8;
     width: 100%;
 }

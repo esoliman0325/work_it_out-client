@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
+import WorkoutsContext from '../WorkoutsContext';
 // import { Route } from 'react-router-dom';
 import './LandingPage.css';
 
 
 
 class LandingPage extends Component {
+	static contextType = WorkoutsContext;
+
   render() {
+		let fadeBack = this.context.showMenu ? 'landing-page-container fade-back': 'landing-page-container';
+
   	return (
 			<div>
-				<div className='landing-page-container'>
+				<div className={fadeBack}>
 					<div>
 						<div>
 							<div className='work-it-out-body'>
@@ -19,7 +24,7 @@ class LandingPage extends Component {
 								</div>
 							</div>
 							<h2>What is Work it Out?</h2>
-							<div class='what-is'>
+							<div className='what-is'>
 								<p>
 									<p>Work it out allows you to create, view in calendar,</p> 
 									<p>and ultmately keep track of your daily workouts.</p>
