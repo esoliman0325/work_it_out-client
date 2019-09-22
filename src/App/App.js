@@ -9,6 +9,7 @@ import WorkoutsContext from '../WorkoutsContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDumbbell } from '@fortawesome/free-solid-svg-icons'
 import './App.css'
+import { updateLocale } from 'moment';
 
 class App extends Component {
 static contextType = WorkoutsContext;
@@ -21,6 +22,8 @@ constructor(props) {
       workoutId: 0,
       workoutBodyIdRef: 0,
       showMenu: false,
+      user: null, 
+      activeRoom: null
     }
 }
 
@@ -103,6 +106,18 @@ deleteEvent = workoutBodyIdRef => {
   }
 }
 
+updateUser = user => {
+  this.setState({ 
+    user 
+  })
+}
+
+updateRoom = room => {
+  this.setState({ 
+    activeRoom: room 
+  })
+}
+
   render() {
     const dumbBell = <FontAwesomeIcon icon={faDumbbell} style={{color: 'green'}} size='lg'/>
     const contextValue = {
@@ -112,6 +127,8 @@ deleteEvent = workoutBodyIdRef => {
       workoutId: this.state.workoutId,
       workoutBodyIdRef: this.state.workoutBodyIdRef,
       showMenu: this.state.showMenu,
+      user: this.state.user,
+      activeRoom: this.state.activeRoom,
       deleteWorkout: this.deleteWorkout,
       deleteEvent: this.deleteEvent,
       updateShowMenu: this.updateShowMenu,
@@ -120,6 +137,8 @@ deleteEvent = workoutBodyIdRef => {
       updateDate: this.updateDate,
       updateWorkouts: this.updateWorkouts,
       updateEvents: this.updateEvents,
+      updateUser: this.updateUser,
+      updateRoom: this.updateRoom,
       addWorkout: this.addWorkout,
       addEvent: this.addEvent
     }

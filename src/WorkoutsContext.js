@@ -7,6 +7,8 @@ const WorkoutsContext = React.createContext({
     workoutId: 0,
     workoutBodyIdRef: 0,
     showMenu: false,
+    user: null,
+    activeRoom: null,
     // addWorkout: () => {},
     // deleteWorkout: () => {},
     updateWorkouts: () => {},
@@ -18,7 +20,9 @@ const WorkoutsContext = React.createContext({
     deleteEvent: () => {},
     addWorkout: () => {},
     addEvent: () => {},
-    updateEvents: () => {}
+    updateEvents: () => {},
+    updateRoom: () => {},
+    updateUser: () => {}
 })
 
 export default WorkoutsContext;
