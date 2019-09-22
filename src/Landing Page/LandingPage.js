@@ -6,7 +6,7 @@ import User from '../User/User';
 import './LandingPage.css';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAP6LsavcCj5CBe12g-nEoL1VVv9ntkCAQ",
+  apiKey: "",
   authDomain: "work-it-out-64655.firebaseapp.com",
   databaseURL: "https://work-it-out-64655.firebaseio.com",
   projectId: "work-it-out-64655",
