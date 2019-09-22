@@ -20,7 +20,7 @@ constructor(props) {
       events: [],
       workoutId: 0,
       workoutBodyIdRef: 0,
-      showMenu: false
+      showMenu: false,
     }
 }
 

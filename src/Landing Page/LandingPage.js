@@ -25,10 +25,8 @@ class LandingPage extends Component {
 							</div>
 							<h2>What is Work it Out?</h2>
 							<div className='what-is'>
-								<p>
-									<p>Work it out allows you to create, view in calendar,</p> 
-									<p>and ultmately keep track of your daily workouts.</p>
-								</p>
+									<p>Work it out allows you to create, view in calendar,
+									and ultmately keep track of your daily workouts.</p> 
 							</div>
 						</div>
 					</div>

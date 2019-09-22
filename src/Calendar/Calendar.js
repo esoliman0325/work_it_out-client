@@ -16,7 +16,7 @@ let allViews = Object.keys(Views).map(k => Views[k])
 const ColoredDateCellWrapper = ({ children }) =>
   React.cloneElement(React.Children.only(children), {
     style: {
-      backgroundColor: 'lightblue',
+      backgroundColor: 'black',
     },
   })
 
@@ -46,9 +46,9 @@ class ReactCalendar extends Component {
     height: 500,
   }
 
-  setView = (view) => {
-    this.setState({view});
-  }
+  // setView = (view) => {
+  //   this.setState({view});
+  // }
 
     /**
 
@@ -56,23 +56,23 @@ class ReactCalendar extends Component {
 
    */
 
-  updateDimensions() {
-    if(window.innerWidth < 500) {
-      this.setState({ width: 450, height: 102 });
-      this.setView(["agenda"]);
+  // updateDimensions() {
+  //   if(window.innerWidth < 500) {
+  //     this.setState({ width: 450, height: 102 });
+  //     this.setView(["agenda"]);
 
-    } else {
-      let update_width  = window.innerWidth-100;
-      let update_height = Math.round(update_width/4.4);
+  //   } else {
+  //     let update_width  = window.innerWidth-100;
+  //     let update_height = Math.round(update_width/4.4);
 
-      this.setState({ width: update_width, height: update_height });
-      this.setView(["month"]);
-    }
-  }
+  //     this.setState({ width: update_width, height: update_height });
+  //     this.setView(["month"]);
+  //   }
+  // }
 
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.updateDimensions.bind(this));
-  }
+  // componentWillUnmount() {
+  //   window.removeEventListener("resize", this.updateDimensions.bind(this));
+  // }
 
   handleSelect = rawDate => {
     let selectedDate = rawDate.toISOString()
@@ -152,11 +152,10 @@ class ReactCalendar extends Component {
 
   render() {
     return (
-      <div className='calendar-container' style={{ height: 500, width: 1000 }}>
-        <button onClick={()=>this.setView()} >Change View</button>
+      <div className='calendar-container' >
           <Calendar
             events={this.context.events}
-            views = {['month', 'agenda']}
+            views = {['month']}
             view={this.state.view}
             height={this.state.height}
             step={60}
@@ -164,7 +163,7 @@ class ReactCalendar extends Component {
             onNavigate={date => this.setState({ date })}
             selectable
             eventPropGetter={event => ({className: 'title-' + event.title.toLowerCase()})}
-            // dayPropGetter={end => this.hightlightDay(end)}
+            // dayPropGetter={date => ({style: {backgroundColor: 'black'}})}
             onSelectSlot={(rawDate) => this.handleSelect(rawDate.end)}
             showMultiDayTimes
             max={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), -1, 'hours')}

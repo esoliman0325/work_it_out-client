@@ -128,58 +128,71 @@ class AddWorkouts extends Component {
 
 
   render() {
-    // const displayError = (this.state.error) ? <div>{this.state.error}</div> : ''
-    // const displayPostedMessage = (this.state.posted) ? <div>Congrats, your entry has posted!</div> : ''
+    let arrayLoaded = this.context.workouts[0] ? true : false;
+    let fade = (arrayLoaded && this.context.selectedDate) ? 'addworkout-form fade': 'addworkout-form';
+    let form;
+    let deleteButton;
+    let nullDate = '';
+
+
+    if (arrayLoaded && this.context.selectedDate) {
+      deleteButton = 
+      <button onClick={()=> this.context.updateDate(nullDate)} className='exit-workout-display' type='button'>X</button>
+
+      form = 
+      <form onSubmit={e => this.handleSubmit(e)}>
+      <label htmlFor='body part'>Body Part</label>
+      <input
+        type='text'
+        name='bodypart'
+        id='bodypart'
+        placeholder='Chest'
+        value={this.state.bodyPart}
+        onChange={e => this.bodyPartChanged(e.target.value)}
+        />
+      <label htmlFor='exercise'>Exercise</label>  
+      <input
+        type='text'
+        name='exercise'
+        id='exercise'
+        placeholder='url'
+        value={this.state.exercise}
+        onChange={e => this.exerciseChanged(e.target.value)}
+        />
+      <label htmlFor='sets'>Sets</label>  
+      <input
+        type='number'
+        name='sets'
+        id='sets'
+        value={this.state.sets}
+        onChange={e => this.setsChanged(e.target.value)}
+        />
+      <label htmlFor='reps'>Reps</label>
+      <input
+        type='number'
+        name='reps'
+        id='reps'
+        value={this.state.reps}
+        onChange={e => this.repsChanged(e.target.value)}
+        />
+      <label htmlFor='reps'>Weight</label>
+      <input
+        type='number'
+        name='weight'
+        id='weight'
+        value={this.state.weight}
+        onChange={e => this.weightChanged(e.target.value)}
+        />
+        <input type ='submit'/>
+    </form>
+    }
 
   	return (
 			<div>
 				<ReactCalendar />
-        {/* {displayError}
-        {displayPostedMessage} */}
-				<form className='addworkout_form' onSubmit={e => this.handleSubmit(e)}>
-          <label htmlFor='body part'>Body Part:</label>
-          <input
-            type='text'
-            name='bodypart'
-            id='bodypart'
-            placeholder='Chest'
-            value={this.state.bodyPart}
-						onChange={e => this.bodyPartChanged(e.target.value)}
-						/>
-          <label htmlFor='exercise'>Exercise:</label>  
-          <input
-            type='text'
-            name='exercise'
-            id='exercise'
-            placeholder='url'
-            value={this.state.exercise}
-            onChange={e => this.exerciseChanged(e.target.value)}
-						/>
-          <label htmlFor='sets'>Sets:</label>  
-          <input
-						type='number'
-            name='sets'
-            id='sets'
-            value={this.state.sets}
-						onChange={e => this.setsChanged(e.target.value)}
-						/>
-          <label htmlFor='reps'>Reps: </label>
-          <input
-            type='number'
-            name='reps'
-            id='reps'
-            value={this.state.reps}
-            onChange={e => this.repsChanged(e.target.value)}
-						/>
-          <label htmlFor='reps'>Weight: </label>
-          <input
-            type='number'
-            name='weight'
-            id='weight'
-            value={this.state.weight}
-            onChange={e => this.weightChanged(e.target.value)}
-						/>
-            <input type ='submit'/>
+        <form className={fade}>
+          {deleteButton}
+          {form}
         </form>
 			</div>
   	)

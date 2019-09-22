@@ -41,30 +41,29 @@ class ViewWorkouts extends Component {
 	let fade = (arrayLoaded && this.context.selectedDate) ? 'workouts-container fade': 'workouts-container';
 	let nullDate = '';
 	let selectedWorkouts;
-	let x;
+	let deleteButton;
 	
 
 
 	if (arrayLoaded && this.context.selectedDate) {
-
 		let filteredWorkouts = workoutData.filter(workout => 
 			workout.start.includes(this.context.selectedDate))
 
 		selectedWorkouts = 
 		filteredWorkouts.map(workout => 
 			<div className='workouts'>
-				<div>{workout.title.toUpperCase()}</div>
+				<div className='workout-title'>{workout.title.toUpperCase()}</div>
 				<div>{workout.exercises.exercise}</div>
 				<div>Sets: {workout.exercises.sets}</div>
 				<div>Reps: {workout.exercises.reps}</div>
 				<div>Weight: {workout.exercises.weight}</div>
 				<button className='delete-button' onClick={() => 
-					this.handleDelete(workout.exercises.workoutId, workout.exercises.workoutBodyIdRef)} type='button'>delete
+					this.handleDelete(workout.exercises.workoutId, workout.exercises.workoutBodyIdRef)} type='button'>DELETE
 				</button>
 			</div>
 		)
 
-		x = selectedWorkouts.length ? <button onClick={()=> this.context.updateDate(nullDate)} className='exit-workout-display' type='button'>X</button> : '';
+		deleteButton = selectedWorkouts.length ? <button onClick={()=> this.context.updateDate(nullDate)} className='exit-workout-display' type='button'>X</button> : '';
 	}
 
 	console.log(selectedWorkouts, 'selected workouts')
@@ -73,7 +72,7 @@ class ViewWorkouts extends Component {
 		<div>
 			<ReactCalendar />	
 			<div className={fade}>
-				{x}
+				{deleteButton}
 				{selectedWorkouts}
 			</div>
 		</div>

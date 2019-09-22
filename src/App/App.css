@@ -1,4 +1,3 @@
-
 h2, .logo {
     color: #00AB89;
     text-decoration: none;
@@ -29,3 +28,15 @@ h2, .logo {
     /* width: fit-content;
     margin: 0 auto; */
 }
+
+@media only screen and (max-width: 320px) {
+
+    .work-it-out-heading-container {
+        width: 107vw;
+    }
+
+    html {
+        height: 125vh;
+    }
+ 
+ }
