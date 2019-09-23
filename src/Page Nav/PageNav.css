@@ -8,7 +8,7 @@
     height: 100vh;
     position: fixed;
     left: -15%;
-    top: 89px;
+    top: 101px;
     z-index: 20;
     opacity: 1;
     transition: 1s;
@@ -73,7 +73,6 @@ button {
     .hamburger-options-container {
         width: 40%;
         left: -40%;
-        top: 101px;
     }
  
  }

@@ -152,8 +152,8 @@ updateRoom = room => {
             {dumbBell}
             <Link className='logo' to='/'>WORK IT OUT</Link>
           </h2>
-          {/* <p>Work it Out allows you to create and keep track of custom workout plans based on what works for you.</p> */}
         </div>
+
         <div className='username-container'>
 					<div id="avatar">
 						<img src={this.state.user ? this.state.user.photoURL : defaultUserImage} alt="user" />
@@ -161,7 +161,9 @@ updateRoom = room => {
 					<div id="user-display-name">{this.state.user ? this.state.user.displayName.split(' ')[0] : ''}
 					</div>
         </div>
+
         <PageNav />
+        
         <Route exact path='/' component={LandingPage}/>
           <Route path='/addworkouts' component={AddWorkouts} /> 
           <Route path='/viewworkouts/' component={ViewWorkouts} />

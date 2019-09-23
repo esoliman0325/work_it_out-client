@@ -27,27 +27,20 @@ class LandingPage extends Component {
   	return (
 			<div>
 				<div className={fadeBack}>
-					<div>
-						<div>
 							<div className='work-it-out-body'>
 								<h2>Work it Out</h2>
 								<p>Keep track of your workouts.</p>
-								  {/* Oauth - component user & sidebar */}
 									<nav id="main">
           					<User firebase={firebase} />
         					</nav>
-									{/* <aside id="sidebar">
-										<div id="logo"></div>
-										<h1 id="wordmark">Tomato</h1>
-									</aside> */}
 							</div>
+							
 							<h2>What is Work it Out?</h2>
+							
 							<div className='what-is'>
 									<p>Work it out allows you to create, view in calendar,
 									and ultmately keep track of your daily workouts.</p> 
 							</div>
-						</div>
-					</div>
 				</div>
 			</div>
   	)

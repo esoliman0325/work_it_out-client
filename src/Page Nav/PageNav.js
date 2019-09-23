@@ -14,12 +14,12 @@ class PageNav extends Component {
 		if(this.context.showMenu) {
 			menu =
 				<div className={slideIn}>
-						<Link className='link' to={'/'}>
-							<button type="button">LOGO</button>
-						</Link>
-						<Link className='link' to={'/addworkouts'}><button type='button'>ADD WORKOUT</button></Link>
-						<Link className='link' to={'/viewworkouts'}><button type='button'>VIEW WORKOUT</button></Link>
-					</div>
+					<Link className='link' to={'/'}>
+						<button type="button">LOGO</button>
+					</Link>
+					<Link className='link' to={'/addworkouts'}><button type='button'>ADD WORKOUT</button></Link>
+					<Link className='link' to={'/viewworkouts'}><button type='button'>VIEW WORKOUT</button></Link>
+				</div>
 
 		} else if(!this.context.showMenu) {
 			menu =
@@ -39,6 +39,7 @@ class PageNav extends Component {
 					<div></div>
 					<div></div>
 				</div>
+
 				{menu}
 			</div>
 		)
