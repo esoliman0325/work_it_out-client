@@ -17,9 +17,6 @@ class PageNav extends Component {
 						<Link className='link' to={'/'}>
 							<button type="button">LOGO</button>
 						</Link>
-						<button type="button" >REGISTER</button>
-						<button type="button">SIGN IN</button>
-						<button type="button">PROGRESS</button>
 						<Link className='link' to={'/addworkouts'}><button type='button'>ADD WORKOUT</button></Link>
 						<Link className='link' to={'/viewworkouts'}><button type='button'>VIEW WORKOUT</button></Link>
 					</div>
@@ -30,9 +27,6 @@ class PageNav extends Component {
 					<Link className='link' to={'/'}>
 						<button type="button">LOGO</button>
 					</Link>
-					<button type="button" >REGISTER</button>
-					<button type="button">SIGN IN</button>
-					<button type="button">PROGRESS</button>
 					<Link className='link' to={'/addworkouts'}><button type='button'>ADD WORKOUT</button></Link>
 					<Link className='link' to={'/viewworkouts'}><button type='button'>VIEW WORKOUT</button></Link>
 				</div>

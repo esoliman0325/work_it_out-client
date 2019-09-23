@@ -8,7 +8,7 @@
     height: 100vh;
     position: fixed;
     left: -15%;
-    top: 101px;
+    top: 89px;
     z-index: 20;
     opacity: 1;
     transition: 1s;
@@ -33,7 +33,7 @@
 .hamburger-all-container {
     position: relative;
     width: 15%;
-    bottom: 110px;
+    bottom: 156px;
 }
 
 button {

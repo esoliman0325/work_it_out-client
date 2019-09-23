@@ -6,6 +6,7 @@ import LandingPage from '../Landing Page/LandingPage';
 import AddWorkouts from '../Add Workouts/AddWorkouts';
 import ViewWorkouts from '../View Workouts/ViewWorkouts';
 import WorkoutsContext from '../WorkoutsContext';
+import defaultUserImage from '../Assets/tomatoes-default-user-image.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDumbbell } from '@fortawesome/free-solid-svg-icons'
 import './App.css'
@@ -152,6 +153,13 @@ updateRoom = room => {
             <Link className='logo' to='/'>WORK IT OUT</Link>
           </h2>
           {/* <p>Work it Out allows you to create and keep track of custom workout plans based on what works for you.</p> */}
+        </div>
+        <div className='username-container'>
+					<div id="avatar">
+						<img src={this.state.user ? this.state.user.photoURL : defaultUserImage} alt="user" />
+					</div>
+					<div id="user-display-name">{this.state.user ? this.state.user.displayName.split(' ')[0] : ''}
+					</div>
         </div>
         <PageNav />
         <Route exact path='/' component={LandingPage}/>

@@ -72,8 +72,12 @@ ul {
 @media only screen and (max-width: 500px) {
 
     .calendar-container {
-        width: 375px;
+        width: 365px;
         height: 550px;
+    }
+
+    .rbc-toolbar-label {
+        margin-left: 12vw;
     }
 
 }

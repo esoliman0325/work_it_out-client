@@ -17,7 +17,7 @@ h2, .logo {
     background-color: black;
     border-bottom: solid 1px gray;
     opacity: .8;
-    width: 100%;
+		width: 100vw;
 }
 
 .work-it-out-heading {
@@ -29,14 +29,56 @@ h2, .logo {
     margin: 0 auto; */
 }
 
+#avatar img {
+	border-radius: 3px;
+	height: 30px;
+	object-fit: cover;
+	width: 30px;
+}
+
+#user-display-name, #avatar {
+	font-weight: bold;
+	font-size: 1rem;
+	line-height: 30px;
+	margin-right: 0.5rem;
+	display: inline-block;
+	vertical-align: top;
+	/* float: right; */
+	/* position: relative; */
+	/* bottom: 270px; */
+}
+
+.username-container {
+	position: relative;
+	bottom: 72px;
+	width: 90px;
+	margin-left: calc(100vw - 115px);
+}
+
+@media only screen and (max-width: 500px) {
+
+	#user-display-name, #avatar {
+		font-size: .75rem;
+	}
+
+	.username-container {
+		margin-left: calc(100vw - 90px);
+	}
+	
+}
+
 @media only screen and (max-width: 320px) {
 
     .work-it-out-heading-container {
-        width: 107vw;
+        width: 113vw;
     }
 
     html {
         height: 125vh;
-    }
+		}
+		
+		.username-container {
+			margin-left: calc(100vw - 50px);
+		}
  
  }
