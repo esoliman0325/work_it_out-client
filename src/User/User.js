@@ -30,7 +30,7 @@ static contextType = WorkoutsContext;
       const signIn = 
       new Promise((resolve, reject) => {
         this.props.firebase.auth().signInWithPopup(new this.props.firebase.auth.GoogleAuthProvider());
-        this.context.user ? resolve() : reject();
+        this.context.user.displayName ? resolve() : reject();
       });
       // let signIn = new promise((resolve) => {
         
