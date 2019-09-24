@@ -86,63 +86,64 @@ class ReactCalendar extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener("resize", () => {
-      this.setState({
-        width: 500,
-        height: 500
-      });
-    });
+    // if(this.context.user) {
+    //   console.log(this.context.user.displayName, 'display name')
+    //   fetch(`http://localhost:8000/viewworkouts/${firstDay}/${lastDay}/${this.context.user.displayName}`,  {
+    //     method: 'GET',
+    //     headers : { 
+    //       'Content-Type': 'application/json',
+    //       'Accept': 'application/json'
+    //       }
+    //   })
+    //     .then(res => res.json())
+    //     .then(response => {
+    //       console.log(response, 'array') 
+    //       let newEvents = response.body.map(res => { 
+    //         let returnedBody = {
+    //           id: res.id,
+    //           title: res.body_part,
+    //           start: res.date,
+    //           end: res.date
+    //         }
+    //         return returnedBody
+    //       })
+  
+    //       let newWorkouts = response.all.map(workout => { 
+    //         let returnedWorkouts = {
+    //           id: workout.body_id,
+    //           title: workout.body_part,
+    //           start: workout.date,
+    //           end: workout.date,
+    //           exercises: {
+    //             exercise: workout.exercise,
+    //             sets: workout.sets,
+    //             reps: workout.reps,
+    //             weight: workout.weight,
+    //             workoutId: workout.workoutId,
+    //             workoutBodyIdRef: workout.body_id_reference
+    //           }
+    //         }
+    //         return returnedWorkouts
+    //       })
+    //         let newEventsWorkouts = [newEvents, newWorkouts]
+  
+    //       return newEventsWorkouts
+    //     })
+    //     .then((newEventsWorkouts) => this.handleEventsWorkouts(newEventsWorkouts)) 
+      }
+  //   window.addEventListener("resize", () => {
+  //     this.setState({
+  //       width: 500,
+  //       height: 500
+  //     });
+  //   });
     
-    console.log(firstDay, lastDay)
+    // console.log(firstDay, lastDay)
   
 
 
-    if(this.context.user) {
-    console.log(this.context.user.displayName, 'display name')
-    fetch(`http://localhost:8000/viewworkouts/${firstDay}/${lastDay}`,  {
-      method: 'GET',
-      headers : { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-        }
-    })
-      .then(res => res.json())
-      .then(response => {
-        console.log(response, 'array') 
-        let newEvents = response.body.map(res => { 
-          let returnedBody = {
-            id: res.id,
-            title: res.body_part,
-            start: res.date,
-            end: res.date
-          }
-          return returnedBody
-        })
 
-        let newWorkouts = response.all.map(workout => { 
-          let returnedWorkouts = {
-            id: workout.body_id,
-            title: workout.body_part,
-            start: workout.date,
-            end: workout.date,
-            exercises: {
-              exercise: workout.exercise,
-              sets: workout.sets,
-              reps: workout.reps,
-              weight: workout.weight,
-              workoutId: workout.workoutId,
-              workoutBodyIdRef: workout.body_id_reference
-            }
-          }
-          return returnedWorkouts
-        })
-          let newEventsWorkouts = [newEvents, newWorkouts]
-
-        return newEventsWorkouts
-      })
-      .then((newEventsWorkouts) => this.handleEventsWorkouts(newEventsWorkouts)) 
-    }
-}
+// }
 
 // hightlightDay = (end) => {
 //   console.log(end)
@@ -152,9 +153,11 @@ class ReactCalendar extends Component {
 //     }
 //   return {style: style}
 //   } 
-// }
+
 
   render() {
+
+
     return (
       <div className='calendar-container' >
           <Calendar
