@@ -94,8 +94,11 @@ class ReactCalendar extends Component {
     });
     
     console.log(firstDay, lastDay)
+  
 
- 
+
+    if(this.context.user) {
+    console.log(this.context.user.displayName, 'display name')
     fetch(`http://localhost:8000/viewworkouts/${firstDay}/${lastDay}`,  {
       method: 'GET',
       headers : { 
@@ -137,7 +140,8 @@ class ReactCalendar extends Component {
 
         return newEventsWorkouts
       })
-      .then((newEventsWorkouts) => this.handleEventsWorkouts(newEventsWorkouts))
+      .then((newEventsWorkouts) => this.handleEventsWorkouts(newEventsWorkouts)) 
+    }
 }
 
 // hightlightDay = (end) => {
