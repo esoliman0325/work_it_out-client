@@ -80,10 +80,6 @@ class ReactCalendar extends Component {
     this.context.updateDate(selectedDate)
   }
 
-  handleEventsWorkouts = (newEventsWorkouts) => {
-    this.context.updateEvents(newEventsWorkouts[0])
-    this.context.updateWorkouts(newEventsWorkouts[1])
-  }
 
   componentDidMount() {
     // if(this.context.user) {

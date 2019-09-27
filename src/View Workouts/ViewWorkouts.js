@@ -14,38 +14,53 @@ class ViewWorkouts extends Component {
 	static contextType = WorkoutsContext;
 
 	handleDelete = (workoutId, workoutBodyIdRef) => {
-		this.context.updateWorkoutId(workoutId)
-		this.context.updateWorkoutBodyIdRef(workoutBodyIdRef)
 
-		fetch(`http://localhost:8000/viewworkouts/${this.context.workoutId}/${this.context.workoutBodyIdRef}`, {
-			method: 'DELETE',
-			headers: {
-				'content-type': 'application/json'
-			}
-		})
-		.then(res => {
-			if(!res.ok) {
-				throw new Error('Oops, something went wrong with deleting your workout. Please try again.')
-			}
-			console.log('server response')
-			// res.json() //return deleted workout Id, then update workout via context below, which will auto trigger re-render and display current workouts
-		})
-		.then(() => {console.log("debug"); this.context.deleteWorkout(this.context.workoutId); this.context.deleteEvent(this.context.workoutBodyIdRef)})
-		.catch(err => console.log(err))
+		let updateIds = new Promise((resolve, reject) => {
+			this.context.updateWorkoutId(workoutId)
+			this.context.updateWorkoutBodyIdRef(workoutBodyIdRef)
+			.then((result) => {
+			//   console.log(result, 'update ids result')
+			  resolve(result)
+			}, () => {
+			  reject()
+			})
+		  });
+
+			updateIds.then(() => {
+				fetch(`http://localhost:8000/viewworkouts/${this.context.workoutId}/${this.context.workoutBodyIdRef}/${this.context.userId}`, {
+					method: 'DELETE',
+					headers: {
+						'content-type': 'application/json'
+					}
+				})
+				.then(res => {
+					if(!res.ok) {
+						throw new Error('Oops, something went wrong with deleting your workout. Please try again.')
+					}
+					console.log('server response')
+					// res.json() //return deleted workout Id, then update workout via context below, which will auto trigger re-render and display current workouts
+				})
+				.then(() => {
+					console.log("debug")
+					this.context.deleteWorkout(this.context.workoutId)
+					this.context.deleteEvent(this.context.workoutBodyIdRef)
+				})
+				.catch(err => console.log(err))
+			})
 	}
 
 	render() {
 	console.log(this.context.workouts, 'full array');
-	let arrayLoaded = this.context.workouts[0] ? true : false;
+	// let arrayLoaded = this.context.workouts[0] ? true : false;
 	let workoutData = this.context.workouts;
-	let fade = (arrayLoaded && this.context.selectedDate) ? 'workouts-container fade': 'workouts-container';
+	let fade = (this.context.selectedDate && this.context.user) ? 'workouts-container fade': 'workouts-container';
 	let nullDate = '';
 	let selectedWorkouts;
 	let deleteButton;
 	
 
 
-	if (arrayLoaded && this.context.selectedDate) {
+	if (this.context.selectedDate && this.context.user) {
 		let filteredWorkouts = workoutData.filter(workout => 
 			workout.start.includes(this.context.selectedDate))
 

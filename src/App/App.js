@@ -21,6 +21,7 @@ constructor(props) {
       selectedDate: '',
       events: [],
       workoutId: 0,
+      userId: 0,
       workoutBodyIdRef: 0,
       showMenu: false,
       user: null, 
@@ -32,6 +33,13 @@ updateWorkoutId = workoutId => {
   console.log('workout id')
   this.setState({
     workoutId
+  })
+}
+
+updateUserId = userId => {
+  console.log('workout id')
+  this.setState({
+    userId
   })
 }
 
@@ -54,18 +62,32 @@ updateDate = (selectedDate, nullDate) => {
   console.log(this.state.selectedDate, 'selected date state')
 }
 
-updateWorkouts = workouts => {
-  this.setState({
-    workouts
+updateWorkouts = (workout, empty) => {
+  if(this.state.user.displayName) {
+    console.log(this.state.workouts, 'workouts state')
+    this.setState({
+      workouts: workout
+    })
+  }
+  else if (!this.state.user.displayName) {
+    this.setState({
+      workouts: empty
   })
+  }
   console.log(this.state.workouts, 'workouts state')
 }
 
-updateEvents = events => {
-  this.setState({
-    events
-  })
-  console.log(events, 'events state')
+updateEvents = (event, empty) => {
+  if(this.state.user.displayName) {
+    this.setState({
+      events: event
+    })
+  }
+  else if(!this.state.user.displayName) {
+    this.setState({
+      events: empty
+    })
+  }
 }
 
 addEvent = addEvents => {
@@ -126,6 +148,7 @@ updateRoom = room => {
       selectedDate: this.state.selectedDate,
       events: this.state.events,
       workoutId: this.state.workoutId,
+      userId: this.state.userId,
       workoutBodyIdRef: this.state.workoutBodyIdRef,
       showMenu: this.state.showMenu,
       user: this.state.user,
@@ -134,6 +157,7 @@ updateRoom = room => {
       deleteEvent: this.deleteEvent,
       updateShowMenu: this.updateShowMenu,
       updateWorkoutId: this.updateWorkoutId,
+      updateUserId: this.updateUserId,
       updateWorkoutBodyIdRef: this.updateWorkoutBodyIdRef,
       updateDate: this.updateDate,
       updateWorkouts: this.updateWorkouts,
@@ -147,28 +171,28 @@ updateRoom = room => {
     return (
       <main className='app'>
         <WorkoutsContext.Provider value={contextValue}>
-        <div className='work-it-out-heading-container'>
-          <h2 className='work-it-out-heading'>
-            {dumbBell}
-            <Link className='logo' to='/'>WORK IT OUT</Link>
-          </h2>
-        </div>
+          <div className='work-it-out-heading-container'>
+            <h2 className='work-it-out-heading'>
+              {dumbBell}
+              <Link className='logo' to='/'>WORK IT OUT</Link>
+            </h2>
+          </div>
 
-        <div className='username-container'>
-					<div id="avatar">
-						<img src={this.state.user ? this.state.user.photoURL : defaultUserImage} alt="user" />
-					</div>
-					<div id="user-display-name">{this.state.user ? this.state.user.displayName.split(' ')[0] : ''}
-					</div>
-        </div>
+          <div className='username-container'>
+            <div id="avatar">
+              <img src={this.state.user ? this.state.user.photoURL : defaultUserImage} alt="user" />
+            </div>
+            <div id="user-display-name">{this.state.user ? this.state.user.displayName.split(' ')[0] : ''}
+            </div>
+          </div>
 
-        <PageNav />
-        
-        <Route exact path='/' component={LandingPage}/>
-          <Route path='/addworkouts' component={AddWorkouts} /> 
-          <Route path='/viewworkouts/' component={ViewWorkouts} />
-          {/* <Route path='viewworkouts/:date' component={WorkoutDay}/> */}
-          {/* <Route path='/viewworkouts/:date' component={ViewWorkoutByDate} /> */}
+          <PageNav />
+          
+          <Route exact path='/' component={LandingPage}/>
+            <Route exact path='/addworkouts' component={AddWorkouts} />
+            <Route exact path='/addworkouts/:userName' component={AddWorkouts} />
+            <Route exact path='/viewworkouts' component={ViewWorkouts} />
+            <Route exact path='/viewworkouts/:userName/' component={ViewWorkouts} />
         </WorkoutsContext.Provider> 
       </main>
     )

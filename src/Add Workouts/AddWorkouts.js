@@ -77,10 +77,11 @@ class AddWorkouts extends Component {
       sets: sets,
       reps: reps,
       weight: weight,
-      date: this.context.selectedDate
+      date: this.context.selectedDate,
+      user_full_name: this.context.user.displayName
     }
 
-  fetch('http://localhost:8000/addworkouts', {
+  fetch(`http://localhost:8000/addworkouts/`, {
     method: 'POST',
     body: JSON.stringify(workout),
     headers: {
@@ -94,6 +95,7 @@ class AddWorkouts extends Component {
       return res.json()
     })
     .then(post => {
+      console.log(post, 'post response')
       let workout = post[0]
       let postedWorkout = {
         id: workout.body_id,
@@ -120,7 +122,8 @@ class AddWorkouts extends Component {
       let postedWorkoutEvent = [postedWorkout, postedEvent]
       return postedWorkoutEvent
     })
-    .then(postedWorkoutEvent => this.handlePostedWorkoutEvent(postedWorkoutEvent))
+    .then(postedWorkoutEvent => {
+      this.handlePostedWorkoutEvent(postedWorkoutEvent)})
     .catch(err => {
       console.log(err)
     })
@@ -128,14 +131,13 @@ class AddWorkouts extends Component {
 
 
   render() {
-    let arrayLoaded = this.context.workouts[0] ? true : false;
-    let fade = (arrayLoaded && this.context.selectedDate) ? 'addworkout-form fade': 'addworkout-form';
+    // let arrayLoaded = this.context.workouts[0] ? true : false;
+    let fade = (this.context.selectedDate && this.context.user) ? 'addworkout-form fade': 'addworkout-form';
     let form;
     let deleteButton;
     let nullDate = '';
 
-
-    if (arrayLoaded && this.context.selectedDate) {
+    if (this.context.selectedDate && this.context.user) {
       deleteButton = 
       <button onClick={()=> this.context.updateDate(nullDate)} className='exit-workout-display' type='button'>X</button>
 

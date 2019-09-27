@@ -4,12 +4,30 @@ import WorkoutsContext from '../WorkoutsContext';
 import './PageNav.css';
 // import STORE from '../STORE';
 
+let d = new Date();
+
+// to bring date back to sept to load sept data...for testing will not use in prod 
+let sept = new Date(d.setDate(d.getDate()-30));
+d = sept 
+
+var firstDay = (new Date(d.getFullYear(), d.getMonth(), 1)).toISOString();
+var lastDay = (new Date(d.getFullYear(), d.getMonth() + 1, 0)).toISOString();
+
+
 class PageNav extends Component {
 	static contextType = WorkoutsContext;
 
 	render() {
 		let menu;
 		let slideIn = this.context.showMenu ? 'hamburger-options-container slide-in' : 'hamburger-options-container';
+		let viewWorkouts = this.context.user ? 
+			<Link className='link' to={`/viewworkouts/${this.context.user.displayName}`}><button type='button'>VIEW WORKOUT</button></Link> :
+			<Link className='link' to={`/viewworkouts/`}><button type='button'>VIEW WORKOUT</button></Link>
+		let addWorkouts = this.context.user ?
+			<Link className='link' to={`/addworkouts/${this.context.user.displayName}`}><button type='button'>ADD WORKOUT</button></Link> :
+			<Link className='link' to={`/addworkouts/`}><button type='button'>ADD WORKOUT</button></Link>
+		console.log(addWorkouts, 'add workouts')
+			
 		
 		if(this.context.showMenu) {
 			menu =
@@ -17,8 +35,8 @@ class PageNav extends Component {
 					<Link className='link' to={'/'}>
 						<button type="button">LOGO</button>
 					</Link>
-					<Link className='link' to={'/addworkouts'}><button type='button'>ADD WORKOUT</button></Link>
-					<Link className='link' to={'/viewworkouts'}><button type='button'>VIEW WORKOUT</button></Link>
+					{viewWorkouts}
+					{addWorkouts}
 				</div>
 
 		} else if(!this.context.showMenu) {
@@ -27,8 +45,8 @@ class PageNav extends Component {
 					<Link className='link' to={'/'}>
 						<button type="button">LOGO</button>
 					</Link>
-					<Link className='link' to={'/addworkouts'}><button type='button'>ADD WORKOUT</button></Link>
-					<Link className='link' to={'/viewworkouts'}><button type='button'>VIEW WORKOUT</button></Link>
+					{viewWorkouts}
+					{addWorkouts}
 				</div>
 		}
 

@@ -17,7 +17,7 @@ h2, .logo {
     background-color: black;
     border-bottom: solid 1px gray;
     opacity: .8;
-		width: 100vw;
+	width: 100vw;
 }
 
 .work-it-out-heading {
@@ -51,7 +51,7 @@ h2, .logo {
 .username-container {
 	position: relative;
 	bottom: 72px;
-	width: 90px;
+	width: fit-content;
 	margin-left: calc(100vw - 115px);
 }
 

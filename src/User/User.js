@@ -21,21 +21,28 @@ static contextType = WorkoutsContext;
 		});
   }
   
+  handleEventsWorkouts = (newEventsWorkouts) => {
+    this.context.updateEvents(newEventsWorkouts[0])
+    this.context.updateWorkouts(newEventsWorkouts[1])
+  }
+
   handleSignInOut = () => {
     if(this.context.user) {
       this.props.firebase.auth().signOut()
+      this.context.updateEvents([])
+      this.context.updateWorkouts([])
     }
 
     else if(!this.context.user) {
-      const signIn = 
-      new Promise((resolve, reject) => {
-        this.props.firebase.auth().signInWithPopup(new this.props.firebase.auth.GoogleAuthProvider());
-        this.context.user.displayName ? resolve() : reject();
+      let signIn = new Promise((resolve, reject) => {
+        this.props.firebase.auth().signInWithPopup(new this.props.firebase.auth.GoogleAuthProvider()).then((result) => {
+          console.log(result, 'auth user')
+          let user = result.user.displayName;
+          resolve(user)
+        }, () => {
+          reject()
+        })
       });
-      // let signIn = new promise((resolve) => {
-        
-      //   resolve();
-      // }
 
       signIn.then(() => {
         fetch(`http://localhost:8000/viewworkouts/${firstDay}/${lastDay}/${this.context.user.displayName}`,  {
@@ -45,7 +52,6 @@ static contextType = WorkoutsContext;
             'Accept': 'application/json'
             }
         })
-      })
         .then(res => res.json())
         .then(response => {
           console.log(response, 'array') 
@@ -61,6 +67,7 @@ static contextType = WorkoutsContext;
 
           let newWorkouts = response.all.map(workout => { 
             let returnedWorkouts = {
+              userId: workout.user_full_name_id,
               id: workout.body_id,
               title: workout.body_part,
               start: workout.date,
@@ -80,17 +87,14 @@ static contextType = WorkoutsContext;
 
           return newEventsWorkouts
         })
-        .then((newEventsWorkouts) => this.handleEventsWorkouts(newEventsWorkouts)) 
+        .then((newEventsWorkouts) => {
+          console.log(newEventsWorkouts, 'user Id from GET')
+          this.handleEventsWorkouts(newEventsWorkouts)
+          this.context.updateUserId(newEventsWorkouts[1][0].userId)
+        }) 
+      })
     }
   }
-
-  // handleSignIn = () => {
-  //   this.props.firebase.auth().signInWithPopup(new this.props.firebase.auth.GoogleAuthProvider());
-  // }
-  
-  // handleSignOut = () => {
-  //   this.props.firebase.auth().signOut();
-  // }
   
   render() {
     return (

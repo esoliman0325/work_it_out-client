@@ -77,7 +77,15 @@ ul {
     }
 
     .rbc-toolbar-label {
-        margin-left: 12vw;
+        margin-left: 9vw;
+    }
+
+}
+
+@media only screen and (max-width: 500px) {
+
+    .rbc-toolbar-label {
+        margin-left: 8vw;
     }
 
 }
@@ -87,7 +95,7 @@ ul {
     .calendar-container {
         width: 320px;
         height: 525px;
-        margin-left: 10px;
+        margin-left: 20px;
     }
 
     .rbc-btn-group button {
@@ -95,7 +103,7 @@ ul {
     }
 
     .rbc-toolbar-label {
-        margin-left: 15vw;
+        margin-left: 10vw;
     }
 
 }
