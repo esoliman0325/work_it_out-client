@@ -29,10 +29,31 @@ constructor(props) {
     }
 }
 
-updateWorkoutId = workoutId => {
+updateWorkoutIds = (workoutId, workoutBodyIdRef) => {
   console.log('workout id')
   this.setState({
-    workoutId
+    workoutId : workoutId,
+    workoutBodyIdRef: workoutBodyIdRef
+  }, () => {
+    fetch(`http://localhost:8000/viewworkouts/${this.state.workoutId}/${this.state.workoutBodyIdRef}/${this.state.userId}`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+    .then(res => {
+      if(!res.ok) {
+        throw new Error('Oops, something went wrong with deleting your workout. Please try again.')
+      }
+      console.log('server response')
+      // res.json() //return deleted workout Id, then update workout via context below, which will auto trigger re-render and display current workouts
+    })
+    .then(() => {
+      console.log("debug")
+      this.deleteWorkout(this.state.workoutId)
+      this.deleteEvent(this.state.workoutBodyIdRef)
+    })
+    .catch(err => console.log(err))
   })
 }
 
@@ -43,12 +64,12 @@ updateUserId = userId => {
   })
 }
 
-updateWorkoutBodyIdRef = workoutBodyIdRef => {
-  console.log('workout body id ref')
-  this.setState({
-    workoutBodyIdRef
-  })
-}
+// updateWorkoutBodyIdRef = workoutBodyIdRef => {
+//   console.log('workout body id ref')
+//   this.setState({
+//     workoutBodyIdRef
+//   })
+// }
 
 updateShowMenu = () => {
   console.log('menu app level')
@@ -160,6 +181,7 @@ updateRoom = room => {
       updateUserId: this.updateUserId,
       updateWorkoutBodyIdRef: this.updateWorkoutBodyIdRef,
       updateDate: this.updateDate,
+      updateWorkoutIds: this.updateWorkoutIds,
       updateWorkouts: this.updateWorkouts,
       updateEvents: this.updateEvents,
       updateUser: this.updateUser,

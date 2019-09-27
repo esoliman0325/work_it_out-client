@@ -14,39 +14,21 @@ class ViewWorkouts extends Component {
 	static contextType = WorkoutsContext;
 
 	handleDelete = (workoutId, workoutBodyIdRef) => {
+		this.context.updateWorkoutIds(workoutId, workoutBodyIdRef)
 
-		let updateIds = new Promise((resolve, reject) => {
-			this.context.updateWorkoutId(workoutId)
-			this.context.updateWorkoutBodyIdRef(workoutBodyIdRef)
-			.then((result) => {
-			//   console.log(result, 'update ids result')
-			  resolve(result)
-			}, () => {
-			  reject()
-			})
-		  });
+		// let updateIds = new Promise((resolve, reject) => {
+		// 	(this.context.updateWorkoutId(workoutId) && this.context.updateWorkoutBodyIdRef(workoutBodyIdRef))
+		// 	.then((result) => {
+		// 	//   console.log(result, 'update ids result')
+		// 	  resolve(result)
+		// 	}, () => {
+		// 	  reject()
+		// 	})
+		//   });
 
-			updateIds.then(() => {
-				fetch(`http://localhost:8000/viewworkouts/${this.context.workoutId}/${this.context.workoutBodyIdRef}/${this.context.userId}`, {
-					method: 'DELETE',
-					headers: {
-						'content-type': 'application/json'
-					}
-				})
-				.then(res => {
-					if(!res.ok) {
-						throw new Error('Oops, something went wrong with deleting your workout. Please try again.')
-					}
-					console.log('server response')
-					// res.json() //return deleted workout Id, then update workout via context below, which will auto trigger re-render and display current workouts
-				})
-				.then(() => {
-					console.log("debug")
-					this.context.deleteWorkout(this.context.workoutId)
-					this.context.deleteEvent(this.context.workoutBodyIdRef)
-				})
-				.catch(err => console.log(err))
-			})
+			// updateIds.then(() => {
+
+			// })
 	}
 
 	render() {

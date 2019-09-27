@@ -15,6 +15,7 @@ const WorkoutsContext = React.createContext({
     updateWorkouts: () => {},
     updateShowMenu: () => {},
     updateDate: () => {},
+    updateWorkoutIds: () => {},
     updateWorkoutId: () => {},
     updateUserId: () => {},
     updateWorkoutBodyIdRef: () => {},
