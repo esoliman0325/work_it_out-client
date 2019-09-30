@@ -64,13 +64,6 @@ updateUserId = userId => {
   })
 }
 
-// updateWorkoutBodyIdRef = workoutBodyIdRef => {
-//   console.log('workout body id ref')
-//   this.setState({
-//     workoutBodyIdRef
-//   })
-// }
-
 updateShowMenu = () => {
   console.log('menu app level')
   this.setState({

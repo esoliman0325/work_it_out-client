@@ -32,10 +32,10 @@ class ViewWorkouts extends Component {
 	}
 
 	render() {
-	console.log(this.context.workouts, 'full array');
+	console.log(this.context.workouts.length, 'full array');
 	// let arrayLoaded = this.context.workouts[0] ? true : false;
 	let workoutData = this.context.workouts;
-	let fade = (this.context.selectedDate && this.context.user) ? 'workouts-container fade': 'workouts-container';
+	let fade = (this.context.selectedDate && this.context.user && workoutData.length !== 0) ? 'workouts-container fade': 'workouts-container';
 	let nullDate = '';
 	let selectedWorkouts;
 	let deleteButton;

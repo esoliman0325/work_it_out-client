@@ -88,9 +88,13 @@ static contextType = WorkoutsContext;
           return newEventsWorkouts
         })
         .then((newEventsWorkouts) => {
-          console.log(newEventsWorkouts, 'user Id from GET')
+          console.log(newEventsWorkouts, 'new events workouts user id')
+          // console.log(newEventsWorkouts[1][0].userId, 'user Id from GET')
           this.handleEventsWorkouts(newEventsWorkouts)
-          this.context.updateUserId(newEventsWorkouts[1][0].userId)
+          if (typeof newEventsWorkouts[1][0] !== 'undefined') {
+            this.context.updateUserId(newEventsWorkouts[1][0].userId)
+          }
+          this.context.updateUserId(0)
         }) 
       })
     }

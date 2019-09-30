@@ -98,6 +98,7 @@ class AddWorkouts extends Component {
       console.log(post, 'post response')
       let workout = post[0]
       let postedWorkout = {
+        userId: workout.user_full_name_id,
         id: workout.body_id,
         title: workout.body_part,
         start: workout.date,
@@ -123,7 +124,10 @@ class AddWorkouts extends Component {
       return postedWorkoutEvent
     })
     .then(postedWorkoutEvent => {
-      this.handlePostedWorkoutEvent(postedWorkoutEvent)})
+      this.handlePostedWorkoutEvent(postedWorkoutEvent)
+      console.log(postedWorkoutEvent, 'posted workout event')
+      this.context.updateUserId(postedWorkoutEvent[0].userId)
+    })
     .catch(err => {
       console.log(err)
     })
@@ -142,7 +146,7 @@ class AddWorkouts extends Component {
       <button onClick={()=> this.context.updateDate(nullDate)} className='exit-workout-display' type='button'>X</button>
 
       form = 
-      <form onSubmit={e => this.handleSubmit(e)}>
+      <form onSubmit={e => {this.handleSubmit(e); this.context.updateDate(nullDate)}}>
       <label htmlFor='body part'>Body Part</label>
       <input
         type='text'
