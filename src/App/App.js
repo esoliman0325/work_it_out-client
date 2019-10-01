@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
-// import STORE from '../STORE';
 import PageNav from '../Page Nav/PageNav';
 import LandingPage from '../Landing Page/LandingPage';
 import AddWorkouts from '../Add Workouts/AddWorkouts';
 import ViewWorkouts from '../View Workouts/ViewWorkouts';
 import WorkoutsContext from '../WorkoutsContext';
 import defaultUserImage from '../Assets/tomatoes-default-user-image.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDumbbell } from '@fortawesome/free-solid-svg-icons'
 import './App.css'
 import { updateLocale } from 'moment';
@@ -39,6 +38,7 @@ updateWorkoutIds = (workoutId, workoutBodyIdRef) => {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json'
+        // include authorization header with token - create api key as env var
       }
     })
     .then(res => {
@@ -46,7 +46,6 @@ updateWorkoutIds = (workoutId, workoutBodyIdRef) => {
         throw new Error('Oops, something went wrong with deleting your workout. Please try again.')
       }
       console.log('server response')
-      // res.json() //return deleted workout Id, then update workout via context below, which will auto trigger re-render and display current workouts
     })
     .then(() => {
       console.log("debug")

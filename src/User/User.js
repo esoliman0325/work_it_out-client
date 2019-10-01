@@ -5,7 +5,7 @@ import './User.css';
 let d = new Date();
 
 // to bring date back to sept to load sept data...for testing will not use in prod 
-let sept = new Date(d.setDate(d.getDate()-30));
+let sept = new Date(d.setDate(d.getDate()-45));
 d = sept 
 
 var firstDay = (new Date(d.getFullYear(), d.getMonth(), 1)).toISOString();
