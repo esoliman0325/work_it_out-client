@@ -85,7 +85,8 @@ class AddWorkouts extends Component {
     method: 'POST',
     body: JSON.stringify(workout),
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${process.env.API_APP_KEY}`
     }
   })
     .then(res => {

@@ -49,7 +49,8 @@ static contextType = WorkoutsContext;
           method: 'GET',
           headers : { 
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${process.env.API_APP_KEY}`
             }
         })
         .then(res => res.json())
