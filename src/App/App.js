@@ -37,8 +37,8 @@ updateWorkoutIds = (workoutId, workoutBodyIdRef) => {
     fetch(`http://localhost:8000/viewworkouts/${this.state.workoutId}/${this.state.workoutBodyIdRef}/${this.state.userId}`, {
       method: 'DELETE',
       headers: {
-        'content-type': 'application/json'
-        // include authorization header with token - create api key as env var
+        'Authorization': `Bearer ${process.env.API_APP_KEY}`,
+        'Content-Type': 'application/json'
       }
     })
     .then(res => {

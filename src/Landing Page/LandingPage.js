@@ -6,7 +6,7 @@ import User from '../User/User';
 import './LandingPage.css';
 
 const firebaseConfig = {
-  apiKey: `${process.env.REACT_APP_API_KEY}`,
+  apiKey: `${process.env.REACT_APP_FIREBASE_API_KEY}`,
   authDomain: "work-it-out-64655.firebaseapp.com",
   databaseURL: "https://work-it-out-64655.firebaseio.com",
   projectId: "work-it-out-64655",
