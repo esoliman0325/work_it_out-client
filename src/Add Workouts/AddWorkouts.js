@@ -4,7 +4,10 @@ import './AddWorkouts.css';
 // import MyCalendar from '../Calendar/Calendar';
 import ReactCalendar from '../Calendar/Calendar';
 import WorkoutsContext from '../WorkoutsContext';
+import config from '../config';
 // import STORE from '../../STORE';
+
+const { API_BASE_URL } = config;
 
 class AddWorkouts extends Component {
   static contextType = WorkoutsContext;
@@ -81,12 +84,12 @@ class AddWorkouts extends Component {
       user_full_name: this.context.user.displayName
     }
 
-  fetch(`http://localhost:8000/addworkouts/`, {
+  fetch(`${API_BASE_URL}/addworkouts/`, {
     method: 'POST',
     body: JSON.stringify(workout),
     headers: {
       'content-type': 'application/json',
-      'Authorization': `Bearer ${process.env.API_APP_KEY}`
+      'Authorization': `Bearer ${process.env.REACT_APP_API_KEY}`
     }
   })
     .then(res => {

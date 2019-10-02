@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import WorkoutsContext from '../WorkoutsContext';
+import config from '../config';
 import './User.css';
 
 let d = new Date();
@@ -10,6 +11,8 @@ d = sept
 
 var firstDay = (new Date(d.getFullYear(), d.getMonth(), 1)).toISOString();
 var lastDay = (new Date(d.getFullYear(), d.getMonth() + 1, 0)).toISOString();
+
+const { API_BASE_URL } = config;
 
 class User extends Component {
 static contextType = WorkoutsContext;
@@ -45,12 +48,12 @@ static contextType = WorkoutsContext;
       });
 
       signIn.then(() => {
-        fetch(`http://localhost:8000/viewworkouts/${firstDay}/${lastDay}/${this.context.user.displayName}`,  {
+        fetch(`${API_BASE_URL}/viewworkouts/${firstDay}/${lastDay}/${this.context.user.displayName}`,  {
           method: 'GET',
           headers : { 
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization': `Bearer ${process.env.API_APP_KEY}`
+            'Authorization': `Bearer ${process.env.REACT_APP_API_KEY}`
             }
         })
         .then(res => res.json())

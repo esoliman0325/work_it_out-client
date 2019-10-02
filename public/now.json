@@ -11,15 +11,5 @@
           "src": ".*",
           "dest": "/index.html"
         }
-    ],
-    "env": {
-      "REACT_APP_FIREBASE_API_KEY": "@firebase-api-key",
-      "REACT_APP_API_KEY": "@app-api-key"
-    },
-    "build": {
-      "env": {
-        "REACT_APP_FIREBASE_API_KEY": "@firebase-api-key",
-        "REACT_APP_API_KEY": "@app-api-key"
-      }
-    }
+    ]
   }

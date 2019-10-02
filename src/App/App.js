@@ -6,10 +6,13 @@ import AddWorkouts from '../Add Workouts/AddWorkouts';
 import ViewWorkouts from '../View Workouts/ViewWorkouts';
 import WorkoutsContext from '../WorkoutsContext';
 import defaultUserImage from '../Assets/tomatoes-default-user-image.png';
+import config from '../config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDumbbell } from '@fortawesome/free-solid-svg-icons'
 import './App.css'
 import { updateLocale } from 'moment';
+
+const { API_BASE_URL } = config;
 
 class App extends Component {
 static contextType = WorkoutsContext;
@@ -34,10 +37,10 @@ updateWorkoutIds = (workoutId, workoutBodyIdRef) => {
     workoutId : workoutId,
     workoutBodyIdRef: workoutBodyIdRef
   }, () => {
-    fetch(`http://localhost:8000/viewworkouts/${this.state.workoutId}/${this.state.workoutBodyIdRef}/${this.state.userId}`, {
+    fetch(`${API_BASE_URL}/viewworkouts/${this.state.workoutId}/${this.state.workoutBodyIdRef}/${this.state.userId}`, {
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${process.env.API_APP_KEY}`,
+        'Authorization': `Bearer ${process.env.REACT_APP_API_KEY}`,
         'Content-Type': 'application/json'
       }
     })

@@ -2,24 +2,28 @@ import React, { Component } from 'react';
 import WorkoutsContext from '../WorkoutsContext';
 import * as firebase from 'firebase';
 import User from '../User/User';
+import config from '../config';
 // import { Route } from 'react-router-dom';
 import './LandingPage.css';
 
+const { FIREBASE_KEY } = config;
 const firebaseConfig = {
-  apiKey: `${process.env.REACT_APP_FIREBASE_API_KEY}`,
-  authDomain: "work-it-out-64655.firebaseapp.com",
-  databaseURL: "https://work-it-out-64655.firebaseio.com",
-  projectId: "work-it-out-64655",
+  apiKey: `${FIREBASE_KEY}`,
+  authDomain: `${process.env.REACT_APP_AUTH_DOMAIN}`,
+  databaseURL: `${process.env.REACT_APP_DATABASE_URL}`,
+  projectId: `${process.env.REACT_APP_PROJECT_ID}`,
   storageBucket: "",
   messagingSenderId: "71569913318",
-  appId: "1:71569913318:web:e4999525dd73b8ef3c1227"
+  appId: `${process.env.REACT_APP_APP_ID}`
 }
-
 firebase.initializeApp(firebaseConfig)
+
+
 
 
 class LandingPage extends Component {
 	static contextType = WorkoutsContext;
+	
 
   render() {
 		let fadeBack = this.context.showMenu ? 'landing-page-container fade-back': 'landing-page-container';
