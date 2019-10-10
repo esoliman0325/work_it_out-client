@@ -1,6 +1,0 @@
-.day {
-    width: calc(((1/7) * 100%) - 2px );
-    height: 20%;
-    display: inline-block;
-    border: 1px solid black;
-}

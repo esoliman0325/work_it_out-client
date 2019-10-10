@@ -10,8 +10,6 @@ const WorkoutsContext = React.createContext({
     showMenu: false,
     user: null,
     activeRoom: null,
-    // addWorkout: () => {},
-    // deleteWorkout: () => {},
     updateWorkouts: () => {},
     updateShowMenu: () => {},
     updateDate: () => {},

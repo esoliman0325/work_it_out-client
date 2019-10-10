@@ -3,14 +3,6 @@ import WorkoutsContext from '../WorkoutsContext';
 import config from '../config';
 import './User.css';
 
-let d = new Date();
-
-// to bring date back to sept to load sept data...for testing will not use in prod 
-let sept = new Date(d.setDate(d.getDate()-45));
-d = sept 
-
-var firstDay = (new Date(d.getFullYear(), d.getMonth(), 1)).toISOString();
-var lastDay = (new Date(d.getFullYear(), d.getMonth() + 1, 0)).toISOString();
 
 const { API_BASE_URL } = config;
 
@@ -48,7 +40,7 @@ static contextType = WorkoutsContext;
       });
 
       signIn.then(() => {
-        fetch(`${API_BASE_URL}/viewworkouts/${firstDay}/${lastDay}/${this.context.user.displayName}`,  {
+        fetch(`${API_BASE_URL}/viewworkouts/${this.context.user.displayName}`,  {
           method: 'GET',
           headers : { 
             'Content-Type': 'application/json',
@@ -56,9 +48,16 @@ static contextType = WorkoutsContext;
             'Authorization': `Bearer ${process.env.REACT_APP_API_KEY}`
             }
         })
-        .then(res => res.json())
-        .then(response => {
-          console.log(response, 'array') 
+        .then(res => {
+          if (!res.ok) {
+            // throw new Error('Oops, something went wrong with getting your workout. Please try to sign out and sign in again.')
+            Error(res.error)
+            
+          }
+          return res.json()
+        })
+        .then(response => { 
+          console.log(response, 'get res')
           let newEvents = response.body.map(res => { 
             let returnedBody = {
               id: res.id,
@@ -92,14 +91,13 @@ static contextType = WorkoutsContext;
           return newEventsWorkouts
         })
         .then((newEventsWorkouts) => {
-          console.log(newEventsWorkouts, 'new events workouts user id')
-          // console.log(newEventsWorkouts[1][0].userId, 'user Id from GET')
           this.handleEventsWorkouts(newEventsWorkouts)
           if (typeof newEventsWorkouts[1][0] !== 'undefined') {
             this.context.updateUserId(newEventsWorkouts[1][0].userId)
           }
           this.context.updateUserId(0)
         }) 
+        .catch(err => alert(err))
       })
     }
   }

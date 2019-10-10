@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
-import PageNav from '../Page Nav/PageNav';
-import LandingPage from '../Landing Page/LandingPage';
-import AddWorkouts from '../Add Workouts/AddWorkouts';
-import ViewWorkouts from '../View Workouts/ViewWorkouts';
+import PageNav from '../PageNav/PageNav';
+import LandingPage from '../LandingPage/LandingPage';
+import AddWorkouts from '../AddWorkouts/AddWorkouts';
+import ViewWorkouts from '../ViewWorkouts/ViewWorkouts';
 import WorkoutsContext from '../WorkoutsContext';
 import defaultUserImage from '../Assets/tomatoes-default-user-image.png';
 import config from '../config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDumbbell } from '@fortawesome/free-solid-svg-icons'
 import './App.css'
-import { updateLocale } from 'moment';
 
 const { API_BASE_URL } = config;
 
 class App extends Component {
 static contextType = WorkoutsContext;
+
 constructor(props) {
   super(props);
     this.state = {
@@ -31,8 +31,8 @@ constructor(props) {
     }
 }
 
+// DELETE - update workout Id's then fetch on callback to send updated Ids to backend to initiate delete request
 updateWorkoutIds = (workoutId, workoutBodyIdRef) => {
-  console.log('workout id')
   this.setState({
     workoutId : workoutId,
     workoutBodyIdRef: workoutBodyIdRef
@@ -48,26 +48,22 @@ updateWorkoutIds = (workoutId, workoutBodyIdRef) => {
       if(!res.ok) {
         throw new Error('Oops, something went wrong with deleting your workout. Please try again.')
       }
-      console.log('server response')
     })
     .then(() => {
-      console.log("debug")
       this.deleteWorkout(this.state.workoutId)
       this.deleteEvent(this.state.workoutBodyIdRef)
     })
-    .catch(err => console.log(err))
+    .catch(err => alert(err))
   })
 }
 
 updateUserId = userId => {
-  console.log('workout id')
   this.setState({
     userId
   })
 }
 
 updateShowMenu = () => {
-  console.log('menu app level')
   this.setState({
     showMenu: !this.state.showMenu
   })
@@ -75,37 +71,35 @@ updateShowMenu = () => {
 
 updateDate = (selectedDate, nullDate) => {
   selectedDate ? this.setState({selectedDate}) : this.setState({selectedDate: nullDate});
-  console.log(this.state.selectedDate, 'selected date state')
 }
 
+// update workouts if user exists, else empty workouts array
 updateWorkouts = (workout, empty) => {
   if(this.state.user.displayName) {
-    console.log(this.state.workouts, 'workouts state')
     this.setState({
       workouts: workout
     })
-  }
-  else if (!this.state.user.displayName) {
-    this.setState({
-      workouts: empty
-  })
-  }
-  console.log(this.state.workouts, 'workouts state')
+  } else if (!this.state.user.displayName) {
+      this.setState({
+        workouts: empty
+      })
+    }
 }
 
+//update events if user exists, else empty events array
 updateEvents = (event, empty) => {
   if(this.state.user.displayName) {
     this.setState({
       events: event
     })
-  }
-  else if(!this.state.user.displayName) {
-    this.setState({
-      events: empty
-    })
-  }
+  } else if(!this.state.user.displayName) {
+      this.setState({
+        events: empty
+      })
+    }
 }
 
+// add event node (workout body part) if one does not already exist in event array with same date and title
 addEvent = addEvents => {
   let eventDate = addEvents.start;
   let eventTitle = addEvents.title;
@@ -123,20 +117,18 @@ addWorkout = workout => {
   this.setState({
     workouts: [...this.state.workouts, workout]
   })
-  console.log(this.state.workouts, 'post workouts state')
 }
 
 deleteWorkout = workoutId => {
-  let newWorkouts = this.state.workouts.filter(workout => workout.exercises.workoutId !== workoutId)
+  let newWorkouts = this.state.workouts.filter(workout => workout.exercises.workoutId !== workoutId);
   this.setState({
     workouts: newWorkouts
   })
 }
 
+// delete event node(workout body part) if workouts array has < 1 entry
 deleteEvent = workoutBodyIdRef => {
-  console.log('delete event', workoutBodyIdRef)
   let filteredWorkouts = this.state.workouts.filter(workout => workout.exercises.workoutBodyIdRef === workoutBodyIdRef);
-
   if(filteredWorkouts.length < 1) {
     let newEvents = this.state.events.filter(event => event.id !== workoutBodyIdRef)
     this.setState({
@@ -172,9 +164,7 @@ updateRoom = room => {
       deleteWorkout: this.deleteWorkout,
       deleteEvent: this.deleteEvent,
       updateShowMenu: this.updateShowMenu,
-      updateWorkoutId: this.updateWorkoutId,
       updateUserId: this.updateUserId,
-      updateWorkoutBodyIdRef: this.updateWorkoutBodyIdRef,
       updateDate: this.updateDate,
       updateWorkoutIds: this.updateWorkoutIds,
       updateWorkouts: this.updateWorkouts,
@@ -210,6 +200,10 @@ updateRoom = room => {
             <Route exact path='/addworkouts/:userName' component={AddWorkouts} />
             <Route exact path='/viewworkouts' component={ViewWorkouts} />
             <Route exact path='/viewworkouts/:userName/' component={ViewWorkouts} />
+
+          <div class="footer" role="footer">
+            <p>© Ed Soliman 2019</p>
+          </div>
         </WorkoutsContext.Provider> 
       </main>
     )
